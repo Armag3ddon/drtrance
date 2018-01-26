@@ -9,6 +9,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 				this.enemycontroller = new EnemyController(Zero());
 				this.patientcontroller = new Patientcontroller(Zero());
 
+				this.keyAware.push(this.enemycontroller);
+
 				this.add(this.enemycontroller);
 				this.add(this.patientcontroller);
 				this.add(this.drtrance);
