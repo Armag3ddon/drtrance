@@ -8,6 +8,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 				this.drtrance = new Player(new V2(600, 300));
 				this.enemycontroller = new EnemyController(Zero());
 
+				this.keyAware.push(this.enemycontroller);
+
 				this.add(this.enemycontroller);
 				this.add(this.drtrance);
 				this.bg = 'img/PlayScene.jpg';

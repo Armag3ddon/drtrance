@@ -25,6 +25,13 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 				this.parent.remove(this);
 		};
 
+		Enemy.prototype.checkForKill = function(hitboxX) {
+			console.log('checkForKill');
+			var rect = this.relativeArea();
+
+			return rect.p1.x <= hitboxX;
+		};
+
 		return Enemy;
 	}
 );
