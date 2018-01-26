@@ -70,7 +70,7 @@ define(['geo/v2', 'geo/rect', 'core/mouse'], function(V2, Rect, mouse) {
 	Entity.prototype.dispatchReverse = function (list, event, argurment) {
 		for (var i = list.length-1; i >= 0; i--)
 			if (list[i][event])
-				if( list[i][event](argurment)) return true;
+				if(list[i][event](argurment)) return true;
 	};
 
 	Entity.prototype.update = function (delta) {

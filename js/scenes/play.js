@@ -1,5 +1,5 @@
-define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycontroller'],
-		function(Scene, V2, g, Player, EnemyController) {
+define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller'],
+		function(Scene, V2, g, Player, EnemyController, Patientcontroller) {
 			g.add('img/PlayScene.jpg');
 
 			function PlayScene() {
@@ -7,8 +7,10 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 
 				this.drtrance = new Player(new V2(600, 300));
 				this.enemycontroller = new EnemyController(Zero());
+				this.patientcontroller = new Patientcontroller(Zero());
 
 				this.add(this.enemycontroller);
+				this.add(this.patientcontroller);
 				this.add(this.drtrance);
 				this.bg = 'img/PlayScene.jpg';
 			}
