@@ -6,6 +6,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			Entity.call(this);
 			this.position = pos;
 			this.add(new ImageEntity(Zero(), 'img/tileset2.png'));
+			this.currentY = this.position.y;
       this.health = 5;
 			this.current_time = 0;
 		}
@@ -20,8 +21,8 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 
 		Patient.prototype.onUpdate = function(delta) {
 			this.current_time += delta;
-			var hover = this.wave(-2, 2, 2, 0, delta);
-			this.position.y += hover;
+			var hover = this.wave(this.currentY + 75, this.currentY - 75, 2, 0, delta);
+			this.position.y = hover;
 		};
 
 		Patient.prototype.down = function(key) {
@@ -40,6 +41,6 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			}
 		};
 
-		return Patient; 
+		return Patient;
 	}
 );
