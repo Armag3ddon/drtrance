@@ -1,7 +1,16 @@
-define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbarcontroller', 'entity/arrowhelper'],
-		function(Scene, V2, g, Game, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, HealthbarController, ArrowHelper) {
+define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbarcontroller', 'entity/arrowhelper'],
+		function(Scene, V2, g, Game, Image, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, HealthbarController, ArrowHelper) {
 			var imageUrl = 'img/Background.jpg';
+			var gameStartUrl = 'img/game_start.png';
+			var gameStart1Url = 'img/game_start_countdown1.png';
+			var gameStart2Url = 'img/game_start_countdown2.png';
+			var gameStart3Url = 'img/game_start_countdown3.png';
+
 			g.add(imageUrl);
+			g.add(gameStartUrl);
+			g.add(gameStart1Url);
+			g.add(gameStart2Url);
+			g.add(gameStart3Url);
 
 			function PlayScene() {
 				Scene.call(this);
@@ -15,6 +24,13 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				this.musicTimer = 0;
 				this.oneBeat = 464;
 				this.beatTime = this.oneBeat * 4 * this.playSpeed;
+				this.delay = 0;
+				this.gameStart = [
+					new Image(Zero(), gameStartUrl),
+					new Image(Zero(), gameStart3Url),
+					new Image(Zero(), gameStart2Url),
+					new Image(Zero(), gameStart1Url),
+				]
 				// Enemies move 1000 pixels in 10 seconds (100 pixels per second, 0,1pixels per ms)
 				// We estimate one beat every ??? ms
 				// Initial spot of the killzone should be somewhere where an enemy flies by in a beat
@@ -43,6 +59,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				this.add(this.heartcontroller);
 				this.add(this.drtrance);
 				this.add(this.healthbarcontroller);
+				this.center(this.gameStart[0]);
 				this.bg = imageUrl;
 			}
 
@@ -58,6 +75,22 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 						if (game.scene.musicStopped)
 							game.scene.musicStopped();
 					};
+					
+					this.delay += delay;
+
+					if (this.delay <= 1000) {
+						return;
+					}
+					else if (this.delay > 1000 && this.gameStart.length > 0) {
+						this.remove(this.gameStart.shift());
+
+						if (this.gameStart.length > 0) {
+							this.center(this.gameStart[0]);
+							this.delay = 0;
+							return;
+						}
+					}
+
 					this.started = true;
 				}
 
@@ -108,6 +141,12 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 			PlayScene.prototype.escalate = function(step) {
 				this.musicStage++;
 				this.beatTime -= this.oneBeat * this.playSpeed;
+			};
+
+			PlayScene.prototype.center = function (obj) {
+				obj.position.x = this.size.x / 2 - obj.size.x / 2;
+				obj.position.y = this.size.y / 2 - obj.size.y / 2;
+				this.add(obj);
 			};
 
 			return PlayScene;
