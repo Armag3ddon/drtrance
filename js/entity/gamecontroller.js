@@ -1,5 +1,5 @@
-define(['basic/entity', 'basic/text', 'config/fonts'],
-function(Entity, V2, fonts) {
+define(['basic/entity'],
+function(Entity, V2) {
     function GameController(pos) {
       Entity.call(this);
 
@@ -15,6 +15,7 @@ function(Entity, V2, fonts) {
       this.current_time += delta/1000;
       this.current_seconds = Math.floor(this.current_time)%60;
       this.current_minute = Math.floor(this.current_time)/60;
+      //this.add(new Clock(new V2(50, 50), this.current_minute));
     };
 
     return GameController;
