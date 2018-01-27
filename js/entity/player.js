@@ -1,6 +1,10 @@
-define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
-	function(Entity, V2, graphics, Animation) {
+define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound'],
+	function(Entity, V2, graphics, Animation, s) {
 		graphics.add('img/DrTranceSpriteSheet.png');
+
+		s.add('snd/empty_slash.mp3');
+		s.add('snd/slash_hit1.mp3');
+		s.add('snd/slash_hit2.mp3');
 
 		function Player() {
 			Entity.call(this);
@@ -45,7 +49,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 					if (this.fightPositionTime >= 150) {
 						this.isInFightPosition = false;
 						this.goesInFightPosition = false;
-						this.image.state = 0; 
+						this.image.state = 0;
 						this.position.x = this.initial_position.x;
 						this.position.y = this.initial_position.y;
 					}
@@ -67,8 +71,12 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 			this.goesInFightPosition = true;
 		};
 
-		Player.prototype.fight = function() {
-			if (false) {
+		Player.prototype.slash = function(hit) {
+			if (!hit) {
+				s.play('snd/empty_slash.mp3');
+			} else {
+				var rnd = Math.floor(Math.random() * 2) + 1;
+				s.play('snd/slash_hit' + rnd + '.mp3');
 			}
 
 		};

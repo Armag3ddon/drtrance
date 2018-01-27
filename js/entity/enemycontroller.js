@@ -63,9 +63,12 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 		};
 
 		EnemyController.prototype.checkForKill = function(move) {
+			var hit = false;
 			for (var i = this.entities.length - 1; i >= 0; i--) {
-				this.entities[i].checkForKill(this.killzone, move);
+				if(this.entities[i].checkForKill(this.killzone, move))
+					hit = true;
 			};
+			this.parent.drtrance.slash(hit);
 		};
 
 		return EnemyController;
