@@ -81,6 +81,8 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.add(this.image2);
 			this.lifetime = 0;
 			this.add(new SlashEffect(Zero()));
+			this.parent.parent.gamecontroller.currentScore += 1 * this.parent.parent.gamecontroller.mulitplierer;
+			this.parent.parent.gamecontroller.mulitplierer += 1;
 		};
 
 
