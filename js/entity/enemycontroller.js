@@ -45,7 +45,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 						type = 'blue';
 					break;
 				}
-				this.add(new Enemy(new V2(1300, 310), enemyData[type]));
+				this.add(new Enemy(new V2(this.parent.enemySpawnPosition.x, this.parent.enemySpawnPosition.y), enemyData[type]));
 			}
 
 			this.setEnemiesHit();

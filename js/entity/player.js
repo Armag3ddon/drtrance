@@ -1,6 +1,7 @@
-define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound'],
-	function(Entity, V2, graphics, Animation, s) {
-		graphics.add('img/dr_trance_animation.png');
+define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound', 'basic/image'],
+	function(Entity, V2, g, Animation, s, ImageEntity) {
+		g.add('img/dr_trance_animation.png');
+		g.add('img/swoosh.png');
 
 		s.add('snd/empty_slash.mp3');
 		s.add('snd/slash_hit1.mp3');
@@ -47,6 +48,8 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound']
 						this.image.duration = 150;
 						this.position.x = this.initial_position.x;
 						this.position.y = this.initial_position.y;
+						this.remove(this.swoosh);
+						this.swoosh = undefined;
 					}
 				}
 			} else {
@@ -82,6 +85,9 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound']
 
 		Player.prototype.moveToFightSpot = function() {
 			this.goesInFightPosition = true;
+			if (this.swoosh != undefined) return;
+			this.swoosh = new ImageEntity(new V2(-650, 100), 'img/swoosh.png');
+			this.add(this.swoosh);
 		};
 
 		Player.prototype.slash = function(hit) {

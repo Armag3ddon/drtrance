@@ -31,6 +31,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 
 				this.beatTimer = 0;
 				this.beatTime = 400;
+
+				this.enemySpawnPosition = new V2(1300, 310);
 			}
 
 			PlayScene.prototype = new Scene();
