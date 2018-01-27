@@ -14,6 +14,15 @@ define(['basic/entity', 'geo/v2', 'basic/text', 'basic/rect', 'basic/image'],
 				return true;
 			};
 
+			Button.prototype.onUpdate = function() {
+				if (!this.hoverImg)
+					return;
+				if (this.hoverImg.visible && !this.hover())
+					this.hoverImg.visible = false;
+					if (!this.hoverImg.visible && this.hover())
+						this.hoverImg.visible = true;
+			};
+
 			Button.create = function(pos, callback) {
 				return new Button(pos, callback);
 			};
@@ -37,6 +46,15 @@ define(['basic/entity', 'geo/v2', 'basic/text', 'basic/rect', 'basic/image'],
 				this.size.x = Math.max(img.size.x, this.size.x);
 				this.size.y = Math.max(img.size.y, this.size.y);
 				this.add(img);
+				return this;
+			};
+			Button.prototype.imgHover = function(src, scale) {
+				var img = new ImageEntity(Zero(), src, scale);
+				this.size.x = Math.max(img.size.x, this.size.x);
+				this.size.y = Math.max(img.size.y, this.size.y);
+				this.hoverImg = img;
+				this.add(img);
+				this.hoverImg.visible = false;
 				return this;
 			};
 
