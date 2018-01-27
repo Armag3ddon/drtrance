@@ -149,6 +149,34 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 				this.add(obj);
 			};
 
+			PlayScene.prototype.mousedown = function(mouse) {
+				this.mouseStart = new V2(mouse.x, mouse.y);
+			};
+
+			PlayScene.prototype.mouseup = function(mouse) {
+				var mouseEnd = new V2(mouse.x, mouse.y);
+
+				var sum = mouseEnd.dif(this.mouseStart);
+
+				if (Math.abs(sum.x) > Math.abs(sum.y)) {
+					if (sum.x < 0) {
+						this.down('left');
+						this.up('left');
+					} else {
+						this.down('right');
+						this.up('right');
+					}
+				} else {
+					if (sum.y < 0) {
+						this.down('up');
+						this.up('up');
+					} else {
+						this.down('down');
+						this.up('down');
+					}
+				}
+			};
+
 			return PlayScene;
 		}
 );
