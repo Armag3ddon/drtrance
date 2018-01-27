@@ -6,7 +6,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			this.position = pos;
 			this.nextSpawnIn = 1000;
 
-			this.killzone = new V2(800, 840);
+			this.killzone = new V2(800, 900);
 		};
 
 		EnemyController.prototype = new Entity();

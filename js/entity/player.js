@@ -1,6 +1,6 @@
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 	function(Entity, V2, graphics, Animation) {
-		graphics.add('img/DrTrance.png');
+		graphics.add('img/DrTranceSpriteSheet.png');
 
 		function Player() {
 			Entity.call(this);
@@ -11,7 +11,10 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 			this.fight_position_x = 800;
 			this.position.x = this.initial_position.x;
 			this.position.y = this.initial_position.y;
-			this.add(new Animation('img/DrTrance.png', Zero(), 1, 1, true));
+
+			this.image = new Animation('img/DrTranceSpriteSheet.png', Zero(), new V2(1, 2), 1, true);
+			this.add(this.image);
+
 			this.currentY = this.position.y;
 			this.current_time = 0;
 			this.isInFightPosition = false;
@@ -35,12 +38,14 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 					this.fightPositionTime = 0;
 					this.isInFightPosition = true;
 					this.position.x = this.fight_position_x;
+					this.image.state = 1;
 				} else {
 					this.fightPositionTime += delta;
 
 					if (this.fightPositionTime >= 150) {
 						this.isInFightPosition = false;
 						this.goesInFightPosition = false;
+						this.image.state = 0; 
 						this.position.x = this.initial_position.x;
 						this.position.y = this.initial_position.y;
 					}
@@ -50,10 +55,10 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 
 		Player.prototype.down = function(key) {
 			switch(key) {
-				case 'up': 
-				case 'down': 
-				case 'left':  
-				case 'right': 
+				case 'up':
+				case 'down':
+				case 'left':
+				case 'right':
 					this.moveToFightSpot();
 			}
 		};

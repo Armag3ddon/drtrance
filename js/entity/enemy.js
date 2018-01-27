@@ -1,13 +1,13 @@
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'],
 	function(Entity, V2, g, Animation, ImageEntity) {
-		g.add('img/Cutsies.png');
+		g.add('img/VirusSpreadsheet.png');
 
 		function Enemy(pos, type) {
 			Entity.call(this);
 			this.position = pos;
 
 			this.type = type;
-			this.image = new Animation('img/Cutsies.png', Zero(), new V2(4, 3), 0, false);
+			this.image = new Animation('img/VirusSpreadsheet.png', Zero(), new V2(5, 3), 0, false);
 			this.image.frame = type;
 			this.add(this.image);
 
@@ -64,7 +64,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 		Enemy.prototype.kill = function() {
 			this.alive = false;
 
-			this.image2 = new Animation('img/Cutsies.png', Zero(), new V2(4, 3), 0, false);
+			this.image2 = new Animation('img/VirusSpreadsheet.png', Zero(), new V2(5, 3), 0, false);
 			this.image2.frame = this.type;
 			this.image2.state = 1;
 			this.image.state = 2;
