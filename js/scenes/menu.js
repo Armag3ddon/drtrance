@@ -3,16 +3,10 @@ define(['lib/scene', 'basic/button', 'core/graphic', 'core/game', 'geo/v2', 'tra
 		g.add('img/main_menu_bg.jpg');
 		g.add('img/button_start_normal.png');
 		g.add('img/button_start_hover.png');
-		g.add('img/button_next_hover.png');
-		g.add('img/button_next_next.png');
 		g.add('img/button_help_normal.png');
 		g.add('img/button_help_hover.png');
 		g.add('img/button_credits_normal.png');
 		g.add('img/button_credits_hover.png');
-		g.add('img/button_cancel_normal.png');
-		g.add('img/button_cancel_hover.png');
-		g.add('img/button_back_normal.png');
-		g.add('img/button_back_hover.png');
 		function MenuScene() {
 			Scene.call(this);
 
