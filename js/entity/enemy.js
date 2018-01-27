@@ -1,6 +1,7 @@
-define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image', 'entity/slasheffect'],
-	function(Entity, V2, g, Animation, ImageEntity, SlashEffect) {
+define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image', 'entity/slasheffect', 'basic/rect'],
+	function(Entity, V2, g, Animation, ImageEntity, SlashEffect, RectEntity) {
 		g.add('img/VirusSpreadsheet.png');
+		g.add('img/pointer.png');
 
 		function Enemy(pos, type) {
 			Entity.call(this);
@@ -9,6 +10,11 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.image = new Animation('img/VirusSpreadsheet.png', Zero(), new V2(5, 3), 0, false);
 			this.image.frame = this.type.column;
 			this.add(this.image);
+			if (require('config/config').debug) {
+				this.add(new ImageEntity(Zero(), 'img/pointer.png'));
+				this.centerRect = new RectEntity(new V2(49,49), new V2(2,2))
+				this.add(this.centerRect);
+			}
 
 			this.startPos = new V2(pos.x, pos.y);
 			this.lifetime = 0;
@@ -51,6 +57,13 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.position.y = this.startPos.y + newY;
 
 			this.isAtLifetimeMax = this.lifetime >= this.maxLifetime;
+		};
+
+		Enemy.prototype.onDraw = function(ctx) {
+			if (require('config/config').debug) {
+				this.centerRect.position.x = this.size.x/2-1;
+				this.centerRect.position.y = this.size.y/2-1;
+			}
 		};
 
 		Enemy.prototype.checkForKill = function(killzone, killmove) {

@@ -6,12 +6,25 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 			function PlayScene() {
 				Scene.call(this);
 
+				// VERY COMPLICATED DESIGN NOTES, DO NOT DELETE!
+
+				// Enemies move 1000 pixels in 10 seconds (100 pixels per seconds, 0,1pixels per ms)
+				// We estimate one beat every 300 ms
+				// Initial spot of the killzone should be somewhere where an enemy flies by in a beat
+				// the three beat / spawn stages are: 1200, 900, 600 ms
+				// First spot of bar is therefore:
+				// five beats after lowest stage next: 6000ms -> enemy moved 600 pixels
+				// but careful testing dertemined that 580 is a nicer start position!
+				this.enemySpawnPosition = new V2(1300, 310);
+				this.killzoneCenter = this.enemySpawnPosition.x - 580;
+				this.killzoneWidth = 50; // left and right, so 80 in total!
+				this.killzoneTolerance = 10; // unseen extra tolerance for the killzone
+
 				this.gamecontroller = new Gamecontroller(Zero());
-				var killzoneX = 800;
-				this.killZone = new KillZone(new V2(killzoneX, 0));
-				this.arrowhelper = new ArrowHelper(new V2(killzoneX, 0));
+				this.killZone = new KillZone(new V2(this.killzoneCenter - this.killzoneWidth, 0), this.killzoneWidth*2);
+				this.arrowhelper = new ArrowHelper(new V2(this.killzoneCenter, 0), this);
 				this.drtrance = new Player(new V2(275, 300));
-				this.enemycontroller = new EnemyController(Zero());
+				this.enemycontroller = new EnemyController(Zero(), this);
 				this.patientcontroller = new Patientcontroller(Zero());
 				this.heartcontroller = new Heartcontroller(Zero());
 				this.healthbarcontroller = new HealthbarController(Zero());
@@ -30,14 +43,12 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				this.bg = imageUrl;
 
 				this.beatTimer = 0;
-				this.beatTime = 900;
-
-				this.enemySpawnPosition = new V2(1300, 310);
 
 				this.started = false;
 				this.playSpeed = 1.0;
 				this.musicStage = 0;
 				this.musicTimer = 0;
+				this.beatTime = 1200 * this.playSpeed;
 			}
 
 			PlayScene.prototype = new Scene();
@@ -59,7 +70,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 					var scenes = require('config/scenes');
 					Game.scene = scenes.menu;
 					scenes.play = new PlayScene();
-					document.getElementById("game_music").stop();
+					document.getElementById("game_music").pause();
 					document.getElementById("game_music").currentTime = 0;
 					return;
 				}
@@ -77,10 +88,10 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				}
 
 				this.musicTimer += delay;
-				if (this.musicTimer >= 30000 && this.musicStage < 1)
-					this.escalate(30000);
-				if (this.musicTimer >= 59126 && this.musicStage < 2)
-					this.escalate(59126);
+				if (this.musicTimer >= 30000*this.playSpeed && this.musicStage < 1)
+					this.escalate(30000*this.playSpeed);
+				if (this.musicTimer >= 59126*this.playSpeed && this.musicStage < 2)
+					this.escalate(59126*this.playSpeed);
 
 				this.beatTimer += delay;
 				if (this.beatTimer >= this.beatTime) {
@@ -101,7 +112,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 
 			PlayScene.prototype.escalate = function(step) {
 				this.musicStage++;
-				this.beatTime -= 300;
+				this.beatTime -= 300 * this.playSpeed;
 			};
 
 			return PlayScene;

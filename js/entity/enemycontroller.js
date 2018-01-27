@@ -1,12 +1,11 @@
 define(['basic/entity', 'geo/v2', 'entity/enemy'],
 	function(Entity, V2, Enemy) {
-		function EnemyController(pos) {
-			Entity.call(this);
-
-			this.position = pos;
+		function EnemyController(pos, playscene) {
+			Entity.call(this, pos);
 			this.nextSpawnIn = 1000;
 
-			this.killzone = new V2(765, 935);
+			this.killzone = new V2(playscene.killzoneCenter - playscene.killzoneWidth/2 - playscene.killzoneTolerance,
+			                       playscene.killzoneCenter + playscene.killzoneWidth/2 + playscene.killzoneTolerance);
 			this.enemyHit = false;
 
 			this.keyDown = {
@@ -20,7 +19,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 		EnemyController.prototype = new Entity();
 
 		EnemyController.prototype.onUpdate = function(delta) {
-			this.nextSpawnIn -= delta;
+			/*this.nextSpawnIn -= delta;
 			if (this.nextSpawnIn <= 0) {
 				this.nextSpawnIn = Math.round(Math.random() * 3000 + 500);
 				var rnd = Math.floor(Math.random() * 4);
@@ -40,7 +39,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 					break;
 				}
 				this.add(new Enemy(new V2(this.parent.enemySpawnPosition.x, this.parent.enemySpawnPosition.y), enemyData[type]));
-			}
+			}*/
 
 			if (this.entities.length > 0 && this.entities[0].isAtLifetimeMax) {
 				this.enemyHit = true;
@@ -48,6 +47,28 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 				this.parent.gamecontroller.mulitplierer = 0;
 			}
 		};
+
+		EnemyController.prototype.beat = function(difference) {
+			var rnd = Math.floor(Math.random() * 4);
+			var type = '';
+			switch(rnd) {
+				case 0:
+					type = 'purple';
+				break;
+				case 1:
+					type = 'red';
+				break;
+				case 2:
+					type = 'green';
+				break;
+				case 3:
+					type = 'blue';
+				break;
+			}
+			var new_enemy = new Enemy(new V2(this.parent.enemySpawnPosition.x, this.parent.enemySpawnPosition.y), enemyData[type]);
+			new_enemy.lifetime = difference;
+			this.add(new_enemy);
+		}
 
 		EnemyController.prototype.down = function(key) {
 			if (this.keyDown[key])
