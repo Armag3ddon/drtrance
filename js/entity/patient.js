@@ -1,12 +1,12 @@
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'],
 	function(Entity, V2, g, Animation, ImageEntity) {
-		g.add('img/patient1.png');
+		g.add('img/patients.png');
 
 		function Patient(pos, type) {
 			Entity.call(this);
 			this.position = pos;
 
-			this.image = new Animation('img/patient1.png', Zero(), 1, 0, false);
+			this.image = new Animation('img/patients.png', Zero(), 3, 0, false);
 			this.image.frame = type;
 			this.add(this.image);
 
