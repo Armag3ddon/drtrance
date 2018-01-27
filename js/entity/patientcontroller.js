@@ -35,6 +35,10 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 			this.dispatch(this.entities, 'beat', time);
 		};
 
+		PatientController.prototype.patientsLeft = function() {
+			return this.entities.length;
+		};
+
 		return PatientController;
 	}
 );

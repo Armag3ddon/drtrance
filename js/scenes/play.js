@@ -75,7 +75,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 
 					if (this.patientcontroller.reduceHealthAndGetDefeated()) {
 						this.healthbarcontroller.reduce();
-						this.healthbarcontroller.reset();
+						this.healthbarcontroller.setTo(5, this.patientcontroller.patientsLeft());
 					}
 					else {
 						this.healthbarcontroller.reduce();

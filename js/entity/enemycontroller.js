@@ -44,6 +44,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			if (this.entities.length > 0 && this.entities[0].isAtLifetimeMax) {
 				this.enemyHit = true;
 				this.remove(this.entities[0]);
+				if (this.parent.gamecontroller.highestMultiplierer < this.parent.gamecontroller.multiplierer) this.parent.gamecontroller.highestMultiplierer = this.parent.gamecontroller.mulitplierer;
 				this.parent.gamecontroller.mulitplierer = 0;
 			}
 		};
@@ -96,7 +97,10 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 				if(this.entities[i].checkForKill(this.killzone, move))
 					hit = true;
 			};
-			if (hit == false)	this.parent.gamecontroller.mulitplierer = 0;
+			if (hit == false){
+				if (this.parent.gamecontroller.highestMultiplierer < this.parent.gamecontroller.multiplierer) this.parent.gamecontroller.highestMultiplierer = this.parent.gamecontroller.multiplierer;
+				this.parent.gamecontroller.multiplierer = 0;
+				}
 			this.parent.drtrance.slash(hit);
 		};
 
