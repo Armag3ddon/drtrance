@@ -1,5 +1,7 @@
-define(['basic/entity', 'geo/v2', 'basic/rect'],
-	function(Entity, V2, RectEntity) {
+define(['basic/entity', 'geo/v2', 'core/graphic', 'basic/image'],
+	function(Entity, V2, Graphic, Image) {
+		Graphic.add('img/health.png');
+
 		function Healthbar(pos) {
 			Entity.call(this);
             this.position = pos;

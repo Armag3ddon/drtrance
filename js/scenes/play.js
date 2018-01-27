@@ -1,6 +1,6 @@
 define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbar'],
 		function(Scene, V2, g, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, Healthbar) {
-			g.add('img/PlayScene.jpg');
+			g.add('img/Background.jpg');
 
 			function PlayScene() {
 				Scene.call(this);
@@ -11,7 +11,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 				this.enemycontroller = new EnemyController(Zero());
 				this.patientcontroller = new Patientcontroller(Zero());
 				this.heartcontroller = new Heartcontroller(Zero());
-				this.healthbar = (new Healthbar(Zero())).rect(300, 80);
+				//this.healthbar = (new Healthbar(Zero())).rect(300, 80);
 
 				this.keyAware.push(this.drtrance);
 				this.keyAware.push(this.enemycontroller);
@@ -22,7 +22,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 				this.add(this.patientcontroller);
 				this.add(this.heartcontroller);
 				this.add(this.drtrance);
-				this.add(this.healthbar);
+				//this.add(this.healthbar);
 				this.bg = 'img/PlayScene.jpg';
 			}
 
