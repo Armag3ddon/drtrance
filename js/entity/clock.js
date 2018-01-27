@@ -6,9 +6,9 @@ function(Entity, V2, fonts, TextEntity, TextEntity2, TextEntity3) {
 
       this.text = new TextEntity(pos, text, fonts.default);
       this.add(this.text);
-      this.text2 = new TextEntity(new V2(pos.x + 50, pos.y + 30), text, fonts.default);
+      this.text2 = new TextEntity(new V2(pos.x + 50, pos.y + 40), text, fonts.defaultRight);
       this.add(this.text2);
-      this.text3 = new TextEntity(new V2(pos.x + 100, pos.y + 30), text, fonts.default);
+      this.text3 = new TextEntity(new V2(pos.x + 50, pos.y + 40), text, fonts.defaultLeft);
       this.add(this.text3);
     };
 
