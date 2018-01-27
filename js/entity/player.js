@@ -1,6 +1,6 @@
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound'],
 	function(Entity, V2, graphics, Animation, s) {
-		graphics.add('img/DrTranceSpriteSheet.png');
+		graphics.add('img/dr_trance_animation.png');
 
 		s.add('snd/empty_slash.mp3');
 		s.add('snd/slash_hit1.mp3');
@@ -16,8 +16,10 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound']
 			this.position.x = this.initial_position.x;
 			this.position.y = this.initial_position.y;
 
-			this.image = new Animation('img/DrTranceSpriteSheet.png', Zero(), new V2(1, 2), 1, true);
+			this.image = new Animation('img/dr_trance_animation.png', Zero(), new V2(4, 4), 150, true);
 			this.add(this.image);
+			this.animation = 0;
+			this.animationTime = 0;
 
 			this.currentY = this.position.y;
 			this.current_time = 0;
@@ -26,23 +28,15 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound']
 
 		Player.prototype = new Entity();
 
-
-		Player.prototype.wave = function(from, to, duration, offset, delta) {
-			var dif = (to - from) * 0.5;
-			return from + dif + (Math.sin((((this.current_time * 0.001) + duration * offset) / duration) * (Math.PI*2)) * dif);
-		}
-
 		Player.prototype.onUpdate = function(delta) {
-			this.current_time += delta;
-			var hover = this.wave(this.currentY, this.currentY - 25, 1, 0, delta);
-			this.position.y = hover;
-
 			if (this.goesInFightPosition) {
 				if (!this.isInFightPosition) {
 					this.fightPositionTime = 0;
 					this.isInFightPosition = true;
 					this.position.x = this.fight_position_x;
-					this.image.state = 1;
+					this.image.state = 3;
+					this.image.duration = 0;
+					this.image.frame = 0;
 				} else {
 					this.fightPositionTime += delta;
 
@@ -50,8 +44,27 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound']
 						this.isInFightPosition = false;
 						this.goesInFightPosition = false;
 						this.image.state = 0;
+						this.image.duration = 150;
 						this.position.x = this.initial_position.x;
 						this.position.y = this.initial_position.y;
+					}
+				}
+			} else {
+				this.animationTime += delta;
+				if (this.animation == 0) {
+					if (this.animationTime >= 2000) {
+						if (Math.random()*100 > 95) {
+							var anim = Math.floor(Math.random() * 2 + 1);
+							this.animation = anim;
+							this.animationTime = 0;
+							this.image.state = anim;
+						}
+					}
+				} else {
+					if (this.animationTime >= 150) {
+						this.animation = 0;
+						this.animationTime = 0;
+						this.image.state = 0;
 					}
 				}
 			}
