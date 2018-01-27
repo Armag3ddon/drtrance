@@ -119,7 +119,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 
 				var sum = mouseEnd.dif(this.mouseStart);
 
-				if (sum.x > sum.y) {
+				if (Math.abs(sum.x) > Math.abs(sum.y)) {
 					if (sum.x < 0) {
 						this.down('left');
 						this.up('left');
