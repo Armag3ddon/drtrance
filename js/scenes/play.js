@@ -23,7 +23,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 				this.add(this.heartcontroller);
 				this.add(this.drtrance);
 				//this.add(this.healthbar);
-				this.bg = 'img/PlayScene.jpg';
+				this.bg = 'img/Background.jpg';
 			}
 
 			PlayScene.prototype = new Scene();
