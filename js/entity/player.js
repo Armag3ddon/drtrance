@@ -9,7 +9,8 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 				y: 300
 			}
 			this.fight_position_x = 800;
-			this.position = this.initial_position;
+			this.position.x = this.initial_position.x;
+			this.position.y = this.initial_position.y;
 			this.add(new Animation('img/DrTrance.png', Zero(), 1, 1, true));
 			this.currentY = this.position.y;
 			this.current_time = 0;
@@ -41,7 +42,8 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 					if (this.fightPositionTime >= 150) {
 						this.isInFightPosition = false;
 						this.goesInFightPosition = false;
-						this.position.x = this.initial_position;
+						this.position.x = this.initial_position.x;
+						this.position.y = this.initial_position.y;
 					}
 				}
 			}
