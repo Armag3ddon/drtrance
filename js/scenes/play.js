@@ -1,5 +1,5 @@
-define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbarcontroller', 'entity/arrowhelper'],
-		function(Scene, V2, g, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, HealthbarController, ArrowHelper) {
+define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbarcontroller', 'entity/arrowhelper'],
+		function(Scene, V2, g, Game, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, HealthbarController, ArrowHelper) {
 			var imageUrl = 'img/Background.jpg';
 			g.add(imageUrl);
 
@@ -33,7 +33,24 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 			PlayScene.prototype = new Scene();
 
 			PlayScene.prototype.onUpdate = function(delay) {
-				this.healthbarcontroller.reduce(this.enemycontroller.getEnemiesHit().length);
+				if (this.patientcontroller.entities.length <= 0) {
+					var scenes = require('config/scenes');
+					Game.scene = scenes.menu;
+					scenes.play = new PlayScene();
+					return;
+				}
+
+				if (this.enemycontroller.enemyHit) {
+					this.enemycontroller.enemyHit = false;
+
+					if (this.patientcontroller.reduceHealthAndGetDefeated()) {
+						this.healthbarcontroller.reduce();
+						this.healthbarcontroller.reset();
+					}
+					else {
+						this.healthbarcontroller.reduce();
+					}
+				}
 			}
 
 			return PlayScene;

@@ -9,25 +9,27 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'basic/image'],
 			this.initial_health = 5;
 			this.health = this.initial_health;
 
-			for (var i = 0; i < this.initial_health; i++) {
-				this.add(new Image(new V2(1000 + i * 45, 650), imageUrl));
-			}
+			this.reset();
 		};
 
 		HealthbarController.prototype = new Entity();
 
 		HealthbarController.prototype.onUpdate = function (delta) {
+			var entities_length = this.entities.length;
+			if (this.health < entities_length) {
+				this.remove(this.entities[0]);
+			}
 		};
 
 		HealthbarController.prototype.reduce = function(value) {
-			var diff = this.initial_health - value;
-			var minus_health = this.health - diff;
+			this.health -= 1;
+		};
 
-			for (var i = 0; i < this.health - diff; i++) {
-				this.remove(this.entities[i]);
+		HealthbarController.prototype.reset = function() {
+			this.health = this.initial_health;
+			for (var i = 0; i < this.initial_health; i++) {
+				this.add(new Image(new V2(1000 + i * 45, 650), imageUrl));
 			}
-
-			this.health = diff;
 		};
 
 		return HealthbarController;

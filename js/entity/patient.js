@@ -50,6 +50,14 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.active = value;
 		};
 
+		Patient.prototype.reduceHealth = function() {
+			this.health -= 1;
+		}
+
+		Patient.prototype.isDefeated = function() {
+			return this.health <= 0;
+		}
+
 		return Patient;
 	}
 );
