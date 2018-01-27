@@ -3,6 +3,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 		g.add('img/patients.png');
 		g.add('img/patient1_animation.png');
 		g.add('img/patient2_animation.png');
+		g.add('img/patient3_animation.png');
 
 		function Patient(pos, type) {
 			Entity.call(this);

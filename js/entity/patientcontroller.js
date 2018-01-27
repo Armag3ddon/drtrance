@@ -2,10 +2,10 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 	function(Entity, V2, Patient) {
 		function PatientController(pos) {
 			Entity.call(this, pos);
-			this.toSpawn = 2;
-			this.add(new Patient(new V2(-50, 300), 1));
-//			this.add(new Patient(new V2(150, 250), 2));
-			this.add(new Patient(new V2(125, 380), 2));
+			this.toSpawn = 3;
+			this.add(new Patient(new V2(40, 270), 3));
+			this.add(new Patient(new V2(-50, 350), 1));
+			this.add(new Patient(new V2(140, 390), 2));
 		}
 
 		PatientController.prototype = new Entity();
