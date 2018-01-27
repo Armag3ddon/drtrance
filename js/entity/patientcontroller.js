@@ -11,10 +11,22 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 		PatientController.prototype = new Entity();
 
 		PatientController.prototype.onUpdate = function (delta) {
-			for (var i = this.toSpawn - 1; i >= 0; i--)
-			{
-				if(this.entities[i].health <= 0) this.remove(this.entities[i]);
+		}
+
+		PatientController.prototype.reduceHealthAndGetDefeated = function() {
+			this.current_patient.reduceHealth();
+
+			if (this.current_patient.isDefeated()) {
+				this.remove(this.current_patient);
+				this.current_patient = this.getCurrentPatient();
+				return true;
 			}
+
+			return false;
+		};
+
+		PatientController.prototype.getCurrentPatient = function() {
+			return this.entities[this.entities.length - 1];
 		}
 
 		PatientController.prototype.beat = function(time) {

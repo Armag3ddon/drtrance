@@ -7,8 +7,8 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			this.nextSpawnIn = 1000;
 
 			this.killzone = new V2(765, 935);
+			this.enemyHit = false;
 
-			this.enemiesHit = [];
 			this.keyDown = {
 				up: false,
 				down: false,
@@ -20,12 +20,6 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 		EnemyController.prototype = new Entity();
 
 		EnemyController.prototype.onUpdate = function(delta) {
-			if (this.enemiesHit.length > 0) {
-				for (var i = 0; i < this.enemiesHit.length; i++) {
-					this.remove(this.enemiesHit[i]);
-				}
-			}
-
 			this.nextSpawnIn -= delta;
 			if (this.nextSpawnIn <= 0) {
 				this.nextSpawnIn = Math.round(Math.random() * 3000 + 500);
@@ -48,7 +42,11 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 				this.add(new Enemy(new V2(this.parent.enemySpawnPosition.x, this.parent.enemySpawnPosition.y), enemyData[type]));
 			}
 
-			this.setEnemiesHit();
+			if (this.entities.length > 0 && this.entities[0].isAtLifetimeMax) {
+				this.enemyHit = true;
+				this.remove(this.entities[0]);
+				this.parent.gamecontroller.mulitplierer = 0;
+			}
 		};
 
 		EnemyController.prototype.down = function(key) {
@@ -79,18 +77,6 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			};
 			if (hit == false)	this.parent.gamecontroller.mulitplierer = 0;
 			this.parent.drtrance.slash(hit);
-		};
-
-		EnemyController.prototype.setEnemiesHit = function() {
-			for (var i = this.entities.length - 1; i >= 0; i--) {
-				if (this.entities[i].isAtLifetimeMax) {
-					this.enemiesHit.push(this.entities[i]);
-				}
-			};
-		};
-
-		EnemyController.prototype.getEnemiesHit = function() {
-			return this.enemiesHit;
 		};
 
 		return EnemyController;
