@@ -1,49 +1,68 @@
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'],
 	function(Entity, V2, g, Animation, ImageEntity) {
 		g.add('img/patients.png');
+		g.add('img/patient1_animation.png');
+		g.add('img/patient2_animation.png');
 
 		function Patient(pos, type) {
 			Entity.call(this);
 			this.position = pos;
 
-			this.image = new Animation('img/patients.png', Zero(), 3, 0, false);
-			this.image.frame = type;
+			this.image = new Animation('img/patient' + type + '_animation.png', Zero(), new V2(4,3), 150, true);
 			this.add(this.image);
+			this.animation = 0;
+			this.animationTime = 0;
 
-			this.currentY = this.position.y;
+
+			this.beatTime = 0;
+			this.beatTimer = 0;
+			this.beatDir = 1;
+
+			this.startX = this.position.x;
+			this.startY = this.position.y;
       		this.health = 5;
-			this.current_time = 0;
-			this.jumpHeight = 5 + (50 * Math.random());
-			this.jumpDuration = 2 + (2 * Math.random());
 		}
 
 		Patient.prototype = new Entity();
 
-		Patient.prototype.wave = function(from, to, duration, offset, delta) {
-			var dif = (to - from) * 0.5;
-			return from + dif + (Math.sin((((this.current_time * 0.001) + duration * offset) / duration) * (Math.PI*2)) * dif);
-		};
-
 		Patient.prototype.onUpdate = function(delta) {
-			this.current_time += delta;
-			var hover = this.wave(this.currentY, this.currentY - this.jumpHeight, this.jumpDuration, 0, delta);
-			this.position.y = hover;
+			this.animationTime += delta;
+			if (this.animation == 0) {
+				if (this.animationTime >= 2000) {
+					if (Math.random()*100 > 95) {
+						var anim = Math.floor(Math.random() * 2 + 1);
+						this.animation = anim;
+						this.animationTime = 0;
+						this.image.state = anim;
+					}
+				}
+			} else {
+				if (this.animationTime >= 150) {
+					this.animation = 0;
+					this.animationTime = 0;
+					this.image.state = 0;
+				}
+			}
+			return;
+
+			/*
+			this.beatTimer += delta;
+			var percentage = this.beatTimer / this.beatTime;
+			if (this.beatDir == 1)
+				var newX = Math.round(this.startX + 40 * percentage);
+			else {
+				var newX = Math.round(this.startX + 40 - 40 * percentage);
+				}
+			var newY = Math.round(this.startY - 20 * Math.sin((180*percentage) / 180 * Math.PI));
+
+			this.position.x = newX;
+			this.position.y = newY;*/
 		};
 
-		Patient.prototype.down = function(key) {
-			switch(key) {
-				case 'up':  break;
-				case 'down':  break;
-				case 'left':  break;
-				case 'right':  break;
-			}
-		};
-
-		Patient.prototype.up = function(key) {
-			switch(key) {
-				case 'up':  case 'down':  break;
-				case 'left':  case 'right':  break;
-			}
+		Patient.prototype.beat = function(duration) {
+			this.beatDir *= -1;
+			this.beatTime = duration;
+			this.beatTimer = 0;
 		};
 
 		Patient.prototype.setActive = function(value) {

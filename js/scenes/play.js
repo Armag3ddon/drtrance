@@ -28,13 +28,26 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 				this.add(this.drtrance);
 				this.add(this.healthbarcontroller);
 				this.bg = imageUrl;
+
+				this.beatTimer = 0;
+				this.beatTime = 400;
 			}
 
 			PlayScene.prototype = new Scene();
 
 			PlayScene.prototype.onUpdate = function(delay) {
 				this.healthbarcontroller.reduce(this.enemycontroller.getEnemiesHit().length);
+
+				this.beatTimer += delay;
+				if (this.beatTimer >= this.beatTime) {
+					this.beatTimer = 0;
+					this.beat(this.beatTime);
+				}
 			}
+
+			PlayScene.prototype.beat = function(time) {
+				this.patientcontroller.beat(time);
+			};
 
 			return PlayScene;
 		}
