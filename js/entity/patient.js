@@ -74,7 +74,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 		};
 
 		Patient.prototype.reduceHealth = function() {
-			//this.health -= 1;
+			this.health -= 1;
 			if (this.health < 3) {
 				this.image.state = 3;
 			}
