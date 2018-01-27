@@ -110,6 +110,34 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				this.beatTime -= this.oneBeat * this.playSpeed;
 			};
 
+			PlayScene.prototype.mousedown = function(mouse) {
+				this.mouseStart = new V2(mouse.x, mouse.y);
+			};
+
+			PlayScene.prototype.mouseup = function(mouse) {
+				var mouseEnd = new V2(mouse.x, mouse.y);
+
+				var sum = mouseEnd.dif(this.mouseStart);
+
+				if (sum.x > sum.y) {
+					if (sum.x < 0) {
+						this.down('left');
+						this.up('left');
+					} else {
+						this.down('right');
+						this.up('right');
+					}
+				} else {
+					if (sum.y < 0) {
+						this.down('up');
+						this.up('up');
+					} else {
+						this.down('down');
+						this.up('down');
+					}
+				}
+			};
+
 			return PlayScene;
 		}
 );
