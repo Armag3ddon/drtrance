@@ -56,8 +56,6 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 				return false;
 
 			var x = this.position.x + this.size.x/2;
-			console.log(this.position.x + '  ,  ' + this.size.x);
-			console.log(killzone.x + '  ,  ' + killzone.y + '   ,   ' + x);
 			if (x >= killzone.x && x <= killzone.y)
 				return true;
 			return false;

@@ -28,7 +28,6 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 		Player.prototype.onUpdate = function(delta) {
 			this.current_time += delta;
 			var hover = this.wave(this.currentY, this.currentY - 25, 1, 0, delta);
-			console.log(hover);
 			this.position.y = hover;
 
 			if (this.goesInFightPosition) {
