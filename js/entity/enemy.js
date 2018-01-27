@@ -1,5 +1,5 @@
-define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'],
-	function(Entity, V2, g, Animation, ImageEntity) {
+define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image', 'entity/slasheffect'],
+	function(Entity, V2, g, Animation, ImageEntity, SlashEffect) {
 		g.add('img/VirusSpreadsheet.png');
 
 		function Enemy(pos, type) {
@@ -80,8 +80,9 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.image.state = 2;
 			this.add(this.image2);
 			this.lifetime = 0;
+			this.add(new SlashEffect(Zero()));
 		};
-		
+
 
 		return Enemy;
 	}

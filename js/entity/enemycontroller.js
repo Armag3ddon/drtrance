@@ -7,7 +7,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			this.nextSpawnIn = 1000;
 
 			this.killzone = new V2(765, 935);
-			
+
 			this.enemiesHit = [];
 			this.keyDown = {
 				up: false,
