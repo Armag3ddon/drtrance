@@ -21,10 +21,16 @@ function(Entity, V2, Clock) {
       this.current_time += delta/1000;
       this.current_seconds = Math.floor(this.current_time)%60;
       this.current_minute = Math.floor(this.current_time)/60;
-      this.clock.text.text = this.clock.setClock(Math.floor(this.current_minute), Math.floor(this.current_seconds));
+      this.clock.text.text = this.clock.setClock(Math.floor(this.current_seconds), Math.floor(this.current_minute));
       this.clock.text2.text = this.currentScore;
-      if (this.highestMultiplierer >= this.multiplierer) this.clock.text3.text = 'Streak: ' + this.highestMultiplierer;
-      else this.clock.text3.text = 'Streak: ' + this.multiplierer;
+      if (this.highestMultiplierer >= this.multiplierer)
+      {
+         this.clock.text3.text = 'Streak: ' + this.highestMultiplierer;
+      }
+      else
+      {
+        this.clock.text3.text = 'Streak: ' + this.multiplierer;
+      }
     };
     return GameController;
   }

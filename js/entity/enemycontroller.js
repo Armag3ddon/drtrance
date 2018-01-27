@@ -98,8 +98,8 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 					hit = true;
 			};
 			if (hit == false){
-				if (this.parent.gamecontroller.highestMultiplierer < this.parent.gamecontroller.multiplierer) this.parent.gamecontroller.highestMultiplierer = this.parent.gamecontroller.mulitplierer;
-				this.parent.gamecontroller.mulitplierer = 0;
+				if (this.parent.gamecontroller.highestMultiplierer < this.parent.gamecontroller.multiplierer) this.parent.gamecontroller.highestMultiplierer = this.parent.gamecontroller.multiplierer;
+				this.parent.gamecontroller.multiplierer = 0;
 				}
 			this.parent.drtrance.slash(hit);
 		};
