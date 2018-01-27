@@ -9,7 +9,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			Entity.call(this);
 			this.position = pos;
 
-			this.image = new Animation('img/patient' + type + '_animation.png', Zero(), new V2(4,3), 150, true);
+			this.image = new Animation('img/patient' + type + '_animation.png', Zero(), new V2(4,4), 150, true);
 			this.add(this.image);
 			this.animation = 0;
 			this.animationTime = 0;
