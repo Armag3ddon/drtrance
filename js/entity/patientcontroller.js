@@ -1,6 +1,8 @@
 define(['basic/entity', 'geo/v2', 'entity/patient'],
 	function(Entity, V2, Patient) {
-		function PatientController(pos) {
+		function PatientController(pos) {	
+			var patient;
+
 			Entity.call(this);
 			this.position = pos;
 			this.toSpawn = 3;
