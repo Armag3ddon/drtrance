@@ -5,6 +5,8 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 
 			this.position = pos;
 			this.nextSpawnIn = 1000;
+
+			this.killzone = new V2(800, 840);
 		};
 
 		EnemyController.prototype = new Entity();
@@ -30,7 +32,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 
 		EnemyController.prototype.checkForKill = function() {
 			for (var i = this.entities.length - 1; i >= 0; i--) {
-				if (this.entities[i].checkForKill(1000))
+				if (this.entities[i].checkForKill(this.killzone))
 					this.entities[i].kill();
 			};
 		};

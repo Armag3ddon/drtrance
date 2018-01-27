@@ -17,6 +17,8 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.speedFactor = 4;
 
 			this.alive = true;
+
+			this.inheritSize();
 		}
 
 		Enemy.prototype = new Entity();
@@ -49,13 +51,16 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			}
 		};
 
-		Enemy.prototype.checkForKill = function(hitboxX) {
-			console.log('checkForKill');
+		Enemy.prototype.checkForKill = function(killzone) {
 			if (!this.alive)
 				return false;
-			var rect = this.relativeArea();
 
-			return rect.p1.x <= hitboxX;
+			var x = this.position.x + this.size.x/2;
+			console.log(this.position.x + '  ,  ' + this.size.x);
+			console.log(killzone.x + '  ,  ' + killzone.y + '   ,   ' + x);
+			if (x >= killzone.x && x <= killzone.y)
+				return true;
+			return false;
 		};
 
 		Enemy.prototype.kill = function() {
