@@ -6,13 +6,13 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 			this.toSpawn = 3;
 			for (var i = this.toSpawn; i > 0; i--)
 			{
-					this.add(new Patient(new V2(650 - (i*150), 300)));
+					this.add(new Patient(new V2(600 - (i*150), 300)));
 			}
 		}
 
 		PatientController.prototype = new Entity();
 
-		PatientController.prototype.onUpdate = function (delta){
+		PatientController.prototype.onUpdate = function (delta) {
 			for (var i = this.toSpawn - 1; i >= 0; i--)
 			{
 				if(this.entities[i].health <= 0) this.remove(this.entities[i]);

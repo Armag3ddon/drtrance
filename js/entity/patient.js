@@ -1,14 +1,16 @@
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'],
 	function(Entity, V2, graphics, Animation, ImageEntity) {
-		graphics.add('img/tileset2.png');
+		graphics.add('img/patient1.png');
 
 		function Patient(pos) {
 			Entity.call(this);
 			this.position = pos;
-			this.add(new ImageEntity(Zero(), 'img/tileset2.png'));
+			this.add(new ImageEntity(Zero(), 'img/patient1.png'));
 			this.currentY = this.position.y;
       this.health = 5;
 			this.current_time = 0;
+      this.jumpHeight = 50 + (50 * Math.random());
+      this.jumpDuration = 2 + (2 * Math.random());
 		}
 
 		Patient.prototype = new Entity();
@@ -21,7 +23,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 
 		Patient.prototype.onUpdate = function(delta) {
 			this.current_time += delta;
-			var hover = this.wave(this.currentY + 75, this.currentY - 75, 2, 0, delta);
+			var hover = this.wave(this.currentY, this.currentY - this.jumpHeight, this.jumpDuration, 0, delta);
 			this.position.y = hover;
 		};
 
