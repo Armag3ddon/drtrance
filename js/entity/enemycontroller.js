@@ -31,7 +31,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 		EnemyController.prototype.checkForKill = function() {
 			for (var i = this.entities.length - 1; i >= 0; i--) {
 				if (this.entities[i].checkForKill(1000))
-					this.remove(this.entities[i]);
+					this.entities[i].kill();
 			};
 		};
 
