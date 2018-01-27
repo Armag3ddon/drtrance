@@ -25,9 +25,9 @@ define(['lib/scene', 'basic/button', 'core/graphic', 'core/game', 'geo/v2', 'tra
 			var easing = Easing.OUTELASTIC;
 			var self = this;
 
-			playButton.add(new Morph({ position: { y: 260 } }, 2500, easing));
-			creditsButton.add(new Morph({ position: { y: 390 } }, 2500, easing));
-			helpButton.add(new Morph({ position: { y: 520 } }, 2500, easing));
+			playButton.add(new Morph({ position: { y: 325 } }, 2500, easing));
+			creditsButton.add(new Morph({ position: { y: 425 } }, 2500, easing));
+			helpButton.add(new Morph({ position: { y: 525 } }, 2500, easing));
 		}
 
 		MenuScene.prototype = new Scene();
