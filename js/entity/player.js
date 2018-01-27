@@ -2,12 +2,15 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 	function(Entity, V2, graphics, Animation) {
 		graphics.add('img/DrTrance.png');
 
-		function Player(pos) {
+		function Player() {
 			Entity.call(this);
-			this.position = pos;
+			this.initial_position = 600;
+			this.fight_position = 800;
+			this.position.x = this.initial_position;
 			this.add(new Animation('img/DrTrance.png', Zero(), 1, 1, true));
 			this.currentY = this.position.y;
 			this.current_time = 0;
+			this.isInFightPosition = false;
 		}
 
 		Player.prototype = new Entity();
@@ -22,22 +25,42 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation'],
 			this.current_time += delta;
 			var hover = this.wave(this.currentY, this.currentY - 25, 1, 0, delta);
 			this.position.y = hover;
+
+			if (this.goesInFightPosition) {
+				if (!this.isInFightPosition) {
+					this.fightPositionTime = 0;
+					this.isInFightPosition = true;
+					this.position.x = this.fight_position;
+				} else {
+					this.fightPositionTime += delta;
+
+					if (this.fightPositionTime >= 150) {
+						this.isInFightPosition = false;
+						this.goesInFightPosition = false;
+						this.position.x = this.initial_position;
+					}
+				}
+			}
 		};
 
 		Player.prototype.down = function(key) {
 			switch(key) {
-				case 'up':  break;
-				case 'down':  break;
-				case 'left':  break;
-				case 'right':  break;
+				case 'up': 
+				case 'down': 
+				case 'left':  
+				case 'right': 
+					this.moveToFightSpot();
 			}
 		};
 
-		Player.prototype.up = function(key) {
-			switch(key) {
-				case 'up':  case 'down':  break;
-				case 'left':  case 'right':  break;
+		Player.prototype.moveToFightSpot = function() {
+			this.goesInFightPosition = true;
+		};
+
+		Player.prototype.fight = function() {
+			if (false) {
 			}
+
 		};
 
 		return Player;

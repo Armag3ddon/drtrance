@@ -19,7 +19,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.alive = true;
 
 			this.inheritSize();
-		}
+		};
 
 		Enemy.prototype = new Entity();
 
