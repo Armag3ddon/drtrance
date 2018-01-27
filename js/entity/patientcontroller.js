@@ -6,7 +6,7 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 			this.toSpawn = 3;
 			for (var i = this.toSpawn; i > 0; i--)
 			{
-					this.add(new Patient(new V2(600 - (i*150), 300), 0));
+					this.add(new Patient(new V2(600 - (i*150), 300), i - 1));
 			}
 		}
 
