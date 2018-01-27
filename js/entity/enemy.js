@@ -18,8 +18,6 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.hitCount = 0;
 			this.alive = true;
 
-			this.isAtLifetimeMax = false;
-
 			this.inheritSize();
 		};
 
@@ -50,7 +48,9 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.position.x = this.startPos.x + newX;
 			this.position.y = this.startPos.y + newY;
 
-			this.isAtLifetimeMax = this.lifetime >= this.maxLifetime;
+			if (this.lifetime >= this.maxLifetime) {
+				this.parent.remove(this);
+			}
 		};
 
 		Enemy.prototype.checkForKill = function(killzone, killmove) {
@@ -80,6 +80,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.image.state = 2;
 			this.add(this.image2);
 			this.lifetime = 0;
+			this.parent.parent.GameController
 		};
 
 		return Enemy;

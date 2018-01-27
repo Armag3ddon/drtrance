@@ -7,17 +7,14 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			this.nextSpawnIn = 1000;
 
 			this.killzone = new V2(765, 935);
-<<<<<<< HEAD
+			
 			this.enemiesHit = [];
-=======
-
 			this.keyDown = {
 				up: false,
 				down: false,
 				left: false,
 				right: false,
 			};
->>>>>>> b8a86acc403ea2276de6d73cd4f1314c416cbbf5
 		};
 
 		EnemyController.prototype = new Entity();

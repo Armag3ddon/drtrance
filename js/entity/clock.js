@@ -18,6 +18,7 @@ function(Entity, V2, fonts, TextEntity) {
       else str_minutes = minutes;
       return str_minutes + ':' + str_seconds;
     };
+
     return Clock;
   }
 );
