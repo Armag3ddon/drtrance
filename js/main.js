@@ -2,6 +2,12 @@ define(
 	['config/scenes', 'config/config', 'core/graphic', 'core/mouse', 'core/controls', 'core/sound', 'core/game'],
 	function (scenes, config, graphics, mouse, controls, sound, game) {
 		graphics.load(function() {
+			// Wait for the music to be loaded
+			while(true) {
+				if (musicIsLoaded) {
+					break;
+				}
+			}
 			document.getElementById('loading').style.display = 'none';
 
 			controls.init();
