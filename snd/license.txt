@@ -1,0 +1,9 @@
+slash_empty.mp3
+	as CC-BY 3.0
+	by beerbelly38 (https://freesound.org/people/beerbelly38/sounds/362348/)
+slash_hit1.mp3
+	as CC0
+	by nicktermer (https://freesound.org/people/nicktermer/sounds/259542/)
+slash_hit2.mp3
+	as CC-BY 3.0
+	by LittleRobotSoundFactory (https://freesound.org/people/LittleRobotSoundFactory/sounds/270478/)

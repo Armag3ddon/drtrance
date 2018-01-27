@@ -7,7 +7,17 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			this.nextSpawnIn = 1000;
 
 			this.killzone = new V2(765, 935);
+<<<<<<< HEAD
 			this.enemiesHit = [];
+=======
+
+			this.keyDown = {
+				up: false,
+				down: false,
+				left: false,
+				right: false,
+			};
+>>>>>>> b8a86acc403ea2276de6d73cd4f1314c416cbbf5
 		};
 
 		EnemyController.prototype = new Entity();
@@ -45,6 +55,9 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 		};
 
 		EnemyController.prototype.down = function(key) {
+			if (this.keyDown[key])
+				return;
+
 			switch(key) {
 				case 'up':
 				case 'down':
@@ -52,12 +65,22 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 				case 'right':
 					this.checkForKill(key);
 			}
+
+			this.parent.drtrance.down(key);
+			this.keyDown[key] = true;
+		};
+
+		EnemyController.prototype.up = function(key) {
+			this.keyDown[key] = false;
 		};
 
 		EnemyController.prototype.checkForKill = function(move) {
+			var hit = false;
 			for (var i = this.entities.length - 1; i >= 0; i--) {
-				this.entities[i].checkForKill(this.killzone, move);
+				if(this.entities[i].checkForKill(this.killzone, move))
+					hit = true;
 			};
+			this.parent.drtrance.slash(hit);
 		};
 
 		EnemyController.prototype.setEnemiesHit = function() {
