@@ -22,7 +22,7 @@ function(Entity, V2, Clock) {
       this.current_minute = Math.floor(this.current_time)/60;
       this.clock.text.text = this.clock.setClock(Math.floor(this.current_seconds), Math.floor(this.current_minute));
       this.clock.text2.text = this.currentScore;
-      this.clock.text3.text = 'x' + this.mulitplierer;
+      this.clock.text3.text = '+=' + this.mulitplierer;
     };
     return GameController;
   }

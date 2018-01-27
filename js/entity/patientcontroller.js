@@ -1,14 +1,11 @@
 define(['basic/entity', 'geo/v2', 'entity/patient'],
 	function(Entity, V2, Patient) {
-		function PatientController(pos) {	
-			Entity.call(this);
-			this.position = pos;
+		function PatientController(pos) {
+			Entity.call(this, pos);
 			this.toSpawn = 3;
-			this.add(new Patient(new V2(0, 300), 0));
-			this.add(new Patient(new V2(150, 250), 2));
-			this.add(new Patient(new V2(75, 350), 1));
-
-			this.current_patient = this.getCurrentPatient();
+			this.add(new Patient(new V2(40, 270), 3));
+			this.add(new Patient(new V2(-50, 350), 1));
+			this.add(new Patient(new V2(140, 390), 2));
 		}
 
 		PatientController.prototype = new Entity();
@@ -31,6 +28,10 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 		PatientController.prototype.getCurrentPatient = function() {
 			return this.entities[this.entities.length - 1];
 		}
+
+		PatientController.prototype.beat = function(time) {
+			this.dispatch(this.entities, 'beat', time);
+		};
 
 		return PatientController;
 	}

@@ -28,6 +28,9 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				this.add(this.drtrance);
 				this.add(this.healthbarcontroller);
 				this.bg = imageUrl;
+
+				this.beatTimer = 0;
+				this.beatTime = 400;
 			}
 
 			PlayScene.prototype = new Scene();
@@ -51,7 +54,17 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 						this.healthbarcontroller.reduce();
 					}
 				}
+
+				this.beatTimer += delay;
+				if (this.beatTimer >= this.beatTime) {
+					this.beatTimer = 0;
+					this.beat(this.beatTime);
+				}
 			}
+
+			PlayScene.prototype.beat = function(time) {
+				this.patientcontroller.beat(time);
+			};
 
 			return PlayScene;
 		}
