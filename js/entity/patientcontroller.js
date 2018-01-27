@@ -4,10 +4,9 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 			Entity.call(this);
 			this.position = pos;
 			this.toSpawn = 3;
-			for (var i = this.toSpawn; i > 0; i--)
-			{
-					this.add(new Patient(new V2(600 - (i*150), 300), i - 1));
-			}
+			this.add(new Patient(new V2(0, 300), 0));
+			this.add(new Patient(new V2(150, 250), 2));
+			this.add(new Patient(new V2(75, 350), 1));
 		}
 
 		PatientController.prototype = new Entity();
