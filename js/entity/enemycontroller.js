@@ -7,11 +7,18 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			this.nextSpawnIn = 1000;
 
 			this.killzone = new V2(765, 935);
+			this.enemiesHit = [];
 		};
 
 		EnemyController.prototype = new Entity();
 
-		EnemyController.prototype.onUpdate = function (delta) {
+		EnemyController.prototype.onUpdate = function(delta) {
+			if (this.enemiesHit.length > 0) {
+				for (var i = 0; i < this.enemiesHit.length; i++) {
+					this.remove(this.enemiesHit[i]);
+				}
+			}
+
 			this.nextSpawnIn -= delta;
 			if (this.nextSpawnIn <= 0) {
 				this.nextSpawnIn = Math.round(Math.random() * 3000 + 500);
@@ -33,6 +40,8 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 				}
 				this.add(new Enemy(new V2(1300, 310), enemyData[type]));
 			}
+
+			this.setEnemiesHit();
 		};
 
 		EnemyController.prototype.down = function(key) {
@@ -49,6 +58,18 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			for (var i = this.entities.length - 1; i >= 0; i--) {
 				this.entities[i].checkForKill(this.killzone, move);
 			};
+		};
+
+		EnemyController.prototype.setEnemiesHit = function() {
+			for (var i = this.entities.length - 1; i >= 0; i--) {
+				if (this.entities[i].isAtLifetimeMax) {
+					this.enemiesHit.push(this.entities[i]);
+				}
+			};
+		};
+
+		EnemyController.prototype.getEnemiesHit = function() {
+			return this.enemiesHit;
 		};
 
 		return EnemyController;

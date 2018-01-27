@@ -7,7 +7,7 @@ define(['basic/entity', 'geo/poly', 'config/colors', 'geo/v2', 'config/config'],
 				// Be careful that a rectangle of 0, 0, size.x, size.y does not surround the polygon!
 				// See PolyEntity.clearOffset()
 				Entity.call(this, pos, this.poly.getSize());
-			}
+			};
 
 			PolyEntity.prototype = new Entity();
 

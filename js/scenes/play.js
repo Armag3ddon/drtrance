@@ -1,6 +1,7 @@
-define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbar', 'entity/arrowhelper'],
-		function(Scene, V2, g, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, Healthbar, ArrowHelper) {
-			g.add('img/Background.jpg');
+define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbarcontroller', 'entity/arrowhelper'],
+		function(Scene, V2, g, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, HealthbarController, ArrowHelper) {
+			var imageUrl = 'img/Background.jpg';
+			g.add(imageUrl);
 
 			function PlayScene() {
 				Scene.call(this);
@@ -13,7 +14,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 				this.enemycontroller = new EnemyController(Zero());
 				this.patientcontroller = new Patientcontroller(Zero());
 				this.heartcontroller = new Heartcontroller(Zero());
-				//this.healthbar = (new Healthbar(Zero())).rect(300, 80);
+				this.healthbarcontroller = new HealthbarController(Zero());
 
 				this.keyAware.push(this.drtrance);
 				this.keyAware.push(this.enemycontroller);
@@ -25,11 +26,15 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 				this.add(this.patientcontroller);
 				this.add(this.heartcontroller);
 				this.add(this.drtrance);
-				//this.add(this.healthbar);
-				this.bg = 'img/Background.jpg';
+				this.add(this.healthbarcontroller);
+				this.bg = imageUrl;
 			}
 
 			PlayScene.prototype = new Scene();
+
+			PlayScene.prototype.onUpdate = function(delay) {
+				this.healthbarcontroller.reduce(this.enemycontroller.getEnemiesHit().length);
+			}
 
 			return PlayScene;
 		}

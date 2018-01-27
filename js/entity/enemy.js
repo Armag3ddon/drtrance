@@ -18,6 +18,8 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.hitCount = 0;
 			this.alive = true;
 
+			this.isAtLifetimeMax = false;
+
 			this.inheritSize();
 		};
 
@@ -48,9 +50,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.position.x = this.startPos.x + newX;
 			this.position.y = this.startPos.y + newY;
 
-			if (this.lifetime >= this.maxLifetime) {
-				this.parent.remove(this);
-			}
+			this.isAtLifetimeMax = this.lifetime >= this.maxLifetime;
 		};
 
 		Enemy.prototype.checkForKill = function(killzone, killmove) {
