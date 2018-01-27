@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image', 'entity/slasheffect', 'basic/rect'],
-	function(Entity, V2, g, Animation, ImageEntity, SlashEffect, RectEntity) {
-=======
-define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animationExt', 'basic/image', 'entity/slasheffect'],
-	function(Entity, V2, g, AnimationExt, ImageEntity, SlashEffect) {
->>>>>>> 1706e8cf332062407c951038427a77aa0eda21ba
+define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animationExt', 'basic/image', 'entity/slasheffect', 'basic/rect'],
+	function(Entity, V2, g, AnimationExt, ImageEntity, SlashEffect, RectEntity) {
 		g.add('img/VirusSpreadsheet.png');
 		g.add('img/pointer.png');
 
@@ -72,20 +67,17 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animationExt', 'basic/ima
 			this.isAtLifetimeMax = this.lifetime >= this.maxLifetime;
 		};
 
-<<<<<<< HEAD
 		Enemy.prototype.onDraw = function(ctx) {
 			if (require('config/config').debug) {
 				this.centerRect.position.x = this.size.x/2-1;
 				this.centerRect.position.y = this.size.y/2-1;
 			}
 		};
-=======
 
 		Enemy.prototype.wave = function(from, to, duration, offset) {
 			var dif = (to - from) * 0.5;
 			return from + dif + (Math.sin((((this.current_time * 0.001) + duration * offset) / duration) * (Math.PI*2)) * dif);
-		}
->>>>>>> 1706e8cf332062407c951038427a77aa0eda21ba
+		};
 
 		Enemy.prototype.checkForKill = function(killzone, killmove) {
 			if (!this.alive)
@@ -108,7 +100,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animationExt', 'basic/ima
 		Enemy.prototype.kill = function() {
 			this.alive = false;
 
-			this.image2 = new Animation('img/VirusSpreadsheet.png', Zero(), new V2(5, 3), 0, false);
+			this.image2 = new AnimationExt('img/VirusSpreadsheet.png', Zero(), new V2(5, 3), 1, 1, 0, false);
 			this.image2.frame = this.type.column;
 			this.image2.state = 1;
 			this.image.state = 2;
