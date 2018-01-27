@@ -30,18 +30,37 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				this.bg = imageUrl;
 
 				this.beatTimer = 0;
-				this.beatTime = 400;
+				this.beatTime = 900;
 
 				this.enemySpawnPosition = new V2(1300, 310);
+
+				this.started = false;
+				this.playSpeed = 1.0;
+				this.musicStage = 0;
+				this.musicTimer = 0;
 			}
 
 			PlayScene.prototype = new Scene();
 
 			PlayScene.prototype.onUpdate = function(delay) {
-				if (this.patientcontroller.entities.length <= 0) {
+				if (!this.started) {
+					document.getElementById("game_music").play();
+					document.getElementById("game_music").currentTime = 0;
+					document.getElementById("game_music").playbackRate = this.playSpeed;
+					document.getElementById("game_music").onended = function() {
+						var game = require('core/game');
+						if (game.scene.musicStopped)
+							game.scene.musicStopped();
+					};
+					this.started = true;
+				}
+
+				if (this.patientcontroller.entities.length <= 0) { // GAME OVER!!!
 					var scenes = require('config/scenes');
 					Game.scene = scenes.menu;
 					scenes.play = new PlayScene();
+					document.getElementById("game_music").stop();
+					document.getElementById("game_music").currentTime = 0;
 					return;
 				}
 
@@ -57,15 +76,32 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 					}
 				}
 
+				this.musicTimer += delay;
+				if (this.musicTimer >= 30000 && this.musicStage < 1)
+					this.escalate(30000);
+				if (this.musicTimer >= 59126 && this.musicStage < 2)
+					this.escalate(59126);
+
 				this.beatTimer += delay;
 				if (this.beatTimer >= this.beatTime) {
+					this.beat(this.beatTimer - this.beatTime);
 					this.beatTimer = 0;
-					this.beat(this.beatTime);
 				}
 			}
 
-			PlayScene.prototype.beat = function(time) {
-				this.patientcontroller.beat(time);
+			PlayScene.prototype.musicStopped = function() {
+				document.getElementById("game_music").play();
+				document.getElementById("game_music").currentTime = 207;
+				this.musicTimer = 207000;
+			};
+
+			PlayScene.prototype.beat = function(difference) {
+				this.enemycontroller.beat(difference);
+			};
+
+			PlayScene.prototype.escalate = function(step) {
+				this.musicStage++;
+				this.beatTime -= 300;
 			};
 
 			return PlayScene;
