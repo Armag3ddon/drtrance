@@ -15,7 +15,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'entity/player', 'entity/enemycon
 				this.heartcontroller = new Heartcontroller(Zero());
 				//this.healthbar = (new Healthbar(Zero())).rect(300, 80);
 
-				this.keyAware.push(this.drtrance);
+				//this.keyAware.push(this.drtrance);
 				this.keyAware.push(this.enemycontroller);
 
 				this.add(this.gamecontroller);
