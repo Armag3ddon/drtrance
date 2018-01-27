@@ -22,7 +22,6 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 		Patient.prototype.wave = function(from, to, duration, offset, delta) {
 			var dif = (to - from) * 0.5;
 			return from + dif + (Math.sin((((this.current_time * 0.001) + duration * offset) / duration) * (Math.PI*2)) * dif);
-
 		};
 
 		Patient.prototype.onUpdate = function(delta) {
