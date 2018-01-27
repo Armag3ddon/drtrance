@@ -4,11 +4,11 @@ function(Entity, V2, fonts, TextEntity, TextEntity2, TextEntity3) {
       Entity.call(this);
       this.position = pos;
 
-      this.text = new TextEntity(pos, text, fonts.default);
+      this.text = new TextEntity(pos, text, fonts.defaultLeft);
       this.add(this.text);
-      this.text2 = new TextEntity(new V2(pos.x + 50, pos.y + 40), text, fonts.defaultRight);
+      this.text2 = new TextEntity(new V2(pos.x + 0, pos.y + 40), text, fonts.defaultLeft);
       this.add(this.text2);
-      this.text3 = new TextEntity(new V2(pos.x + 50, pos.y + 40), text, fonts.defaultLeft);
+      this.text3 = new TextEntity(new V2(pos.x + 0, pos.y + 80), text, fonts.defaultLeft);
       this.add(this.text3);
     };
 

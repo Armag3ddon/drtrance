@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image', 'entity/slasheffect', 'basic/rect'],
 	function(Entity, V2, g, Animation, ImageEntity, SlashEffect, RectEntity) {
+=======
+define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animationExt', 'basic/image', 'entity/slasheffect'],
+	function(Entity, V2, g, AnimationExt, ImageEntity, SlashEffect) {
+>>>>>>> 1706e8cf332062407c951038427a77aa0eda21ba
 		g.add('img/VirusSpreadsheet.png');
 		g.add('img/pointer.png');
 
@@ -7,7 +12,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			Entity.call(this);
 			this.position = pos;
 			this.type = type;
-			this.image = new Animation('img/VirusSpreadsheet.png', Zero(), new V2(5, 3), 0, false);
+			this.image = new AnimationExt('img/VirusSpreadsheet.png', Zero(), new V2(5, 3), 1, 1, 0, false);
 			this.image.frame = this.type.column;
 			this.add(this.image);
 			if (require('config/config').debug) {
@@ -23,7 +28,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 
 			this.hitCount = 0;
 			this.alive = true;
-
+			this.current_time = 0;
 			this.isAtLifetimeMax = false;
 
 			this.inheritSize();
@@ -32,6 +37,14 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 		Enemy.prototype = new Entity();
 
 		Enemy.prototype.onUpdate = function(delta) {
+			this.current_time += delta;
+
+			var squishyX, squishyY;
+			squishyX = this.wave(0.9, 1.1, 0.8, 0.0);
+			squishyY = this.wave(0.9, 1.1, 0.8, 0.0);
+			this.image.xScale = squishyX;
+			this.image.yScale = squishyY;
+
 			if (!this.alive) {
 				this.lifetime += delta;
 				this.image.position.y =   Math.floor(this.lifetime*5 / 50);
@@ -59,12 +72,20 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.isAtLifetimeMax = this.lifetime >= this.maxLifetime;
 		};
 
+<<<<<<< HEAD
 		Enemy.prototype.onDraw = function(ctx) {
 			if (require('config/config').debug) {
 				this.centerRect.position.x = this.size.x/2-1;
 				this.centerRect.position.y = this.size.y/2-1;
 			}
 		};
+=======
+
+		Enemy.prototype.wave = function(from, to, duration, offset) {
+			var dif = (to - from) * 0.5;
+			return from + dif + (Math.sin((((this.current_time * 0.001) + duration * offset) / duration) * (Math.PI*2)) * dif);
+		}
+>>>>>>> 1706e8cf332062407c951038427a77aa0eda21ba
 
 		Enemy.prototype.checkForKill = function(killzone, killmove) {
 			if (!this.alive)
