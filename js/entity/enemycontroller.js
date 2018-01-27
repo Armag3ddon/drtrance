@@ -15,8 +15,23 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			this.nextSpawnIn -= delta;
 			if (this.nextSpawnIn <= 0) {
 				this.nextSpawnIn = Math.round(Math.random() * 3000 + 500);
-				var type = Math.floor(Math.random() * 4);
-				this.add(new Enemy(new V2(1300, 150), type));
+				var rnd = Math.floor(Math.random() * 4);
+				var type = '';
+				switch(rnd) {
+					case 0:
+						type = 'purple';
+					break;
+					case 1:
+						type = 'red';
+					break;
+					case 2:
+						type = 'green';
+					break;
+					case 3:
+						type = 'blue';
+					break;
+				}
+				this.add(new Enemy(new V2(1300, 310), enemyData[type]));
 			}
 		};
 
@@ -26,14 +41,13 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 				case 'down':
 				case 'left':
 				case 'right':
-					this.checkForKill();
+					this.checkForKill(key);
 			}
 		};
 
-		EnemyController.prototype.checkForKill = function() {
+		EnemyController.prototype.checkForKill = function(move) {
 			for (var i = this.entities.length - 1; i >= 0; i--) {
-				if (this.entities[i].checkForKill(this.killzone))
-					this.entities[i].kill();
+				this.entities[i].checkForKill(this.killzone, move);
 			};
 		};
 
