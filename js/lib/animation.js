@@ -17,7 +17,8 @@ define(['basic/entity', 'core/graphic', 'geo/v2'],
 
 			Animation.prototype.onUpdate = function(delta) {
 				this.anitime += delta;
-				this.frame = Math.floor( this.anitime / this.duration );
+				if (this.duration != 0)
+					this.frame = Math.floor( this.anitime / this.duration );
 
 				if(this.frame>=this.frames.x && !this.loop)
 					this.parent.remove(this);

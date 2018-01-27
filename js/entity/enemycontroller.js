@@ -12,17 +12,18 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 		EnemyController.prototype.onUpdate = function (delta) {
 			this.nextSpawnIn -= delta;
 			if (this.nextSpawnIn <= 0) {
-				this.nextSpawnIn = Math.round(Math.random() * 10000);
-				this.add(new Enemy(new V2(1300, 300)));
+				this.nextSpawnIn = Math.round(Math.random() * 3000 + 500);
+				var type = Math.floor(Math.random() * 4);
+				this.add(new Enemy(new V2(1300, 150), type));
 			}
 		};
 
 		EnemyController.prototype.down = function(key) {
 			switch(key) {
-				case 'up': 
-				case 'down': 
-				case 'left': 
-				case 'right':  
+				case 'up':
+				case 'down':
+				case 'left':
+				case 'right':
 					this.checkForKill();
 			}
 		};

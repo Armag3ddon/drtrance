@@ -1,28 +1,36 @@
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'],
-	function(Entity, V2, graphics, Animation, ImageEntity) {
-		function Enemy(pos) {
+	function(Entity, V2, g, Animation, ImageEntity) {
+		g.add('img/Cutsies.png');
+
+		function Enemy(pos, type) {
 			Entity.call(this);
 			this.position = pos;
 
-			this.add(new ImageEntity(Zero(), 'img/back.png'));
+			this.image = new Animation('img/Cutsies.png', Zero(), 4, 0, false);
+			this.image.frame = type;
+			this.add(this.image);
 
-			this.xDir = -10;
-			this.yDir = -20;
-			this.yChange = 1;
+			this.startPos = new V2(pos.x, pos.y);
+			this.lifetime = 0;
+			this.maxLifetime = 10000;
+			this.speedFactor = 4;
 		}
 
 		Enemy.prototype = new Entity();
 
 		Enemy.prototype.onUpdate = function(delta) {
-			var newX = Math.round(this.position.x + this.xDir/delta);
-			var newY = Math.round(this.position.y + this.yDir/delta);
-			this.yDir = this.yDir + this.yChange/delta;
+			this.lifetime += delta * this.speedFactor;
 
-			this.position.x = newX;
-			this.position.y = newY;
+			var percentage = this.lifetime / this.maxLifetime;
+			var newX = Math.round(-1000 * percentage);
+			var newY = Math.round(Math.pow(-(1 - percentage * 2), 2) * 100);
 
-			if (this.position.y > 800)
+			this.position.x = this.startPos.x + newX;
+			this.position.y = this.startPos.y + newY;
+
+			if (this.lifetime >= this.maxLifetime) {
 				this.parent.remove(this);
+			}
 		};
 
 		Enemy.prototype.checkForKill = function(hitboxX) {
