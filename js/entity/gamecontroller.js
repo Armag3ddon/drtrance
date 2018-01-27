@@ -14,7 +14,6 @@ function(Entity, V2, fonts) {
 
     GameController.prototype.onUpdate = function (delta) {
       this.current_time += delta;
-      console.log(this.current_date.getSeconds());
     };
 
     return GameController;
