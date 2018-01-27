@@ -13,10 +13,9 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			this.currentY = this.position.y;
       		this.health = 5;
 			this.current_time = 0;
-      		this.jumpHeight = 50 + (50 * Math.random());
+			this.jumpHeight = 5 + (50 * Math.random());
 			this.jumpDuration = 2 + (2 * Math.random());
-		};
-			this.active = false;
+		}
 
 		Patient.prototype = new Entity();
 
