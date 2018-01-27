@@ -6,6 +6,8 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 			this.add(new Patient(new V2(40, 270), 3));
 			this.add(new Patient(new V2(-50, 350), 1));
 			this.add(new Patient(new V2(140, 390), 2));
+
+			this.current_patient = this.getCurrentPatient();
 		}
 
 		PatientController.prototype = new Entity();
