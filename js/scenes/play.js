@@ -7,16 +7,19 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				Scene.call(this);
 
 				// VERY COMPLICATED DESIGN NOTES, DO NOT DELETE!
+				this.beatTimer = 0;
 
-				// Enemies move 1000 pixels in 10 seconds (100 pixels per seconds, 0,1pixels per ms)
-				// We estimate one beat every 300 ms
+				this.started = false;
+				this.playSpeed = 1.0;
+				this.musicStage = 0;
+				this.musicTimer = 0;
+				this.oneBeat = 464;
+				this.beatTime = this.oneBeat * 4 * this.playSpeed;
+				// Enemies move 1000 pixels in 10 seconds (100 pixels per second, 0,1pixels per ms)
+				// We estimate one beat every ??? ms
 				// Initial spot of the killzone should be somewhere where an enemy flies by in a beat
-				// the three beat / spawn stages are: 1200, 900, 600 ms
-				// First spot of bar is therefore:
-				// five beats after lowest stage next: 6000ms -> enemy moved 600 pixels
-				// but careful testing dertemined that 580 is a nicer start position!
 				this.enemySpawnPosition = new V2(1300, 310);
-				this.killzoneCenter = this.enemySpawnPosition.x - 580;
+				this.killzoneCenter = this.enemySpawnPosition.x - Math.floor(15 * this.oneBeat * 0.1);
 				this.killzoneWidth = 50; // left and right, so 80 in total!
 				this.killzoneTolerance = 10; // unseen extra tolerance for the killzone
 
@@ -41,14 +44,6 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				this.add(this.drtrance);
 				this.add(this.healthbarcontroller);
 				this.bg = imageUrl;
-
-				this.beatTimer = 0;
-
-				this.started = false;
-				this.playSpeed = 1.0;
-				this.musicStage = 0;
-				this.musicTimer = 0;
-				this.beatTime = 1200 * this.playSpeed;
 			}
 
 			PlayScene.prototype = new Scene();
@@ -88,9 +83,9 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 				}
 
 				this.musicTimer += delay;
-				if (this.musicTimer >= 30000*this.playSpeed && this.musicStage < 1)
+				if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 1)
 					this.escalate(30000*this.playSpeed);
-				if (this.musicTimer >= 59126*this.playSpeed && this.musicStage < 2)
+				if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 2)
 					this.escalate(59126*this.playSpeed);
 
 				this.beatTimer += delay;
@@ -112,7 +107,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'entity/player', 'en
 
 			PlayScene.prototype.escalate = function(step) {
 				this.musicStage++;
-				this.beatTime -= 300 * this.playSpeed;
+				this.beatTime -= this.oneBeat * this.playSpeed;
 			};
 
 			return PlayScene;

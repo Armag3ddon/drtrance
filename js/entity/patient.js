@@ -29,7 +29,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 		Patient.prototype.onUpdate = function(delta) {
 			if (this.health < 3)
 				return;
-				
+
 			this.animationTime += delta;
 			if (this.animation == 0) {
 				if (this.animationTime >= 2000) {
@@ -74,7 +74,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 		};
 
 		Patient.prototype.reduceHealth = function() {
-			this.health -= 1;
+			//this.health -= 1;
 			if (this.health < 3) {
 				this.image.state = 3;
 			}
