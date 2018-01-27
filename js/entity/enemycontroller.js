@@ -60,7 +60,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 				case 'down':
 				case 'left':
 				case 'right':
-					this.checkForKill(key);
+				this.checkForKill(key);
 			}
 
 			this.parent.drtrance.down(key);
@@ -77,6 +77,7 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 				if(this.entities[i].checkForKill(this.killzone, move))
 					hit = true;
 			};
+			if (hit == false)	this.parent.gamecontroller.mulitplierer = 0;
 			this.parent.drtrance.slash(hit);
 		};
 

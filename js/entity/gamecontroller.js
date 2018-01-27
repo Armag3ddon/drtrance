@@ -9,6 +9,9 @@ function(Entity, V2, Clock) {
       this.current_minute = 0;
       this.clock = new Clock(new V2(50, 50), this.current_seconds, this.current_minute);
       this.add(this.clock);
+
+      this.currentScore = 0;
+      this.mulitplierer = 1;
     };
 
     GameController.prototype = new Entity();
@@ -18,6 +21,8 @@ function(Entity, V2, Clock) {
       this.current_seconds = Math.floor(this.current_time)%60;
       this.current_minute = Math.floor(this.current_time)/60;
       this.clock.text.text = this.clock.setClock(Math.floor(this.current_seconds), Math.floor(this.current_minute));
+      this.clock.text2.text = this.currentScore;
+      this.clock.text3.text = 'x' + this.mulitplierer;
     };
     return GameController;
   }
