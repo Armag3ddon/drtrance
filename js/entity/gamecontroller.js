@@ -12,17 +12,11 @@ function(Entity, V2) {
     GameController.prototype = new Entity();
 
     GameController.prototype.onUpdate = function (delta) {
-<<<<<<< Updated upstream
       this.current_time += delta;
       this.current_time += delta/1000;
       this.current_seconds = Math.floor(this.current_time)%60;
       this.current_minute = Math.floor(this.current_time)/60;
       //this.add(new Clock(new V2(50, 50), this.current_minute));
-=======
-      this.current_time += delta/1000;
-      this.current_seconds = Math.floor(this.current_time)%60;
-      this.current_minute = Math.floor(this.current_time)/60;
->>>>>>> Stashed changes
     };
 
     return GameController;
