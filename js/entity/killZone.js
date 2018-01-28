@@ -10,7 +10,17 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animationExt'],
 			this.add(this.image);
 		}
 
-    killZone.prototype = new Entity();
+		killZone.prototype = new Entity();
+
+		killZone.prototype.startFlash = function() {
+			this.image.duration = 200;
+			this.flash = true;
+		};
+
+		killZone.prototype.stopFlash = function() {
+			this.image.duration = 0;
+			this.flash = false;
+		};
 
 		return killZone;
 	}
