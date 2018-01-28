@@ -144,7 +144,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 			};
 
 			PlayScene.prototype.beat = function(difference) {
-				//if (!this.flashing)
+				if (!this.flashing)
 					this.enemycontroller.beat(difference);
 			};
 
