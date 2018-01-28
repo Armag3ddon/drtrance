@@ -28,7 +28,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 				this.beatTimer = 0;
 
 				this.started = false;
-				this.playSpeed = 1.0;
+				this.playSpeed = 2.0;
 				this.musicStage = 0;
 				this.musicTimer = 0;
 				this.oneBeat = 464;
@@ -80,7 +80,9 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 				this.bg = imageUrl;
 
 				//this.musicTimer = 89000;
-				//this.musicStage = 2;
+				//this.musicStage = 3;
+				//this.increaseInterval = true;
+				//this.increaseIntervalTimer = 0;
 			}
 
 			PlayScene.prototype = new Scene();
@@ -108,8 +110,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 					s.play('snd/start.mp3');
 
 					document.getElementById("game_music").play();
-					document.getElementById("game_music").currentTime = 10;
-					document.getElementById("game_music").playbackRate = this.playSpeed;
+					document.getElementById("game_music").currentTime = 0;
+					//document.getElementById("game_music").playbackRate = this.playSpeed;
 					document.getElementById("game_music").onended = function() {
 						var game = require('core/game');
 						if (game.scene.musicStopped)
@@ -150,6 +152,9 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 					return;
 				}
 
+				if (this.gameEnded)
+					return;
+
 				if (this.enemycontroller.enemyHit) {
 					this.enemycontroller.enemyHit = false;
 
@@ -162,15 +167,22 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 					}
 				}
 
-				this.musicTimer += delay;
-				if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 1)
-					this.escalate(30000*this.playSpeed);
-				if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 2)
-					this.escalate(59126*this.playSpeed);
-				if (this.musicTimer >= 90000*this.playSpeed && this.musicStage < 3)
-					this.escalate(90000*this.playSpeed);
+				this.musicTimer += delay * this.playSpeed;
+				if (this.musicTimer >= 29590 && this.musicStage < 1)
+					this.escalate(29590);
+				if (this.musicTimer >= 59126 && this.musicStage < 2)
+					this.escalate(59126);
+				if (this.musicTimer >= 90000 && this.musicStage < 3)
+					this.escalate(90000);
+				if (this.musicStage >= 3) {
+					this.increaseIntervalTimer += delay * this.playSpeed;
+					if (this.increaseIntervalTimer >= 20000) {
+						this.escalate();
+						this.increaseIntervalTimer = 0;
+					}
+				}
 
-				this.beatTimer += delay;
+				this.beatTimer += delay * this.playSpeed;
 				if (this.beatTimer >= this.beatTime) {
 					this.beat(this.beatTimer - this.beatTime);
 					this.beatTimer = 0;
@@ -180,7 +192,6 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 			PlayScene.prototype.musicStopped = function() {
 				document.getElementById("game_music").play();
 				document.getElementById("game_music").currentTime = 207;
-				this.musicTimer = 207000;
 			};
 
 			PlayScene.prototype.beat = function(difference) {
@@ -195,12 +206,21 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 			PlayScene.prototype.escalate = function(step) {
 				this.musicStage++;
 				if (this.musicStage == 1)
-					this.beatTime -= this.oneBeat * this.playSpeed;
+					this.beatTime -= this.oneBeat * 1.0/this.playSpeed;
 				if (this.musicStage == 2)
-					this.beatTime -= this.oneBeat * this.playSpeed;
+					this.beatTime -= this.oneBeat * 1.0/this.playSpeed;
 				if (this.musicStage == 3) {
 					this.flashing = true;
 					this.killZone.startFlash(this.getBeatX(12));
+					this.increaseInterval = true;
+					this.increaseIntervalTimer = 0;
+					this.musicStage++;
+				}
+				if (this.increaseInterval) {
+					this.beatTime -= 50;
+					console.log("escalate");
+					if (this.beatTime < 0)
+						this.beatTime = 1;
 				}
 			};
 

@@ -38,7 +38,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound',
 					this.position.x = this.fight_position_x;
 					this.image.state = 3;
 					this.image.duration = 0;
-					this.image.frame = 0;
+					this.image.frame = Math.floor(Math.random() * 3);
 				} else {
 					this.fightPositionTime += delta;
 
@@ -46,6 +46,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound',
 						this.isInFightPosition = false;
 						this.goesInFightPosition = false;
 						this.image.state = 0;
+						this.image.frame = 0;
 						this.image.duration = 150;
 						this.position.x = this.initial_position.x;
 						this.position.y = this.initial_position.y;

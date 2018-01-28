@@ -55,7 +55,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animationExt', 'basic/ima
 				return;
 			}
 
-			this.lifetime += delta * this.speedFactor;
+			this.lifetime += delta * this.speedFactor * this.parent.parent.playSpeed;
 
 			var percentage = this.lifetime / this.maxLifetime;
 			var newX = Math.round(-1000 * percentage);
