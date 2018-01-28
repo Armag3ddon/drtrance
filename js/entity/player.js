@@ -6,6 +6,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound',
 		s.add('snd/empty_slash.mp3');
 		s.add('snd/slash_hit1.mp3');
 		s.add('snd/slash_hit2.mp3');
+		s.add('snd/slash_hit3.mp3');
 
 		function Player() {
 			Entity.call(this);
@@ -94,7 +95,7 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'core/sound',
 			if (!hit) {
 				s.play('snd/empty_slash.mp3');
 			} else {
-				var rnd = Math.floor(Math.random() * 2) + 1;
+				var rnd = Math.floor(Math.random() * 3) + 1;
 				s.play('snd/slash_hit' + rnd + '.mp3');
 			}
 

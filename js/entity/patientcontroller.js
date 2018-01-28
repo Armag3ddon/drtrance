@@ -1,5 +1,10 @@
-define(['basic/entity', 'geo/v2', 'entity/patient'],
-	function(Entity, V2, Patient) {
+define(['basic/entity', 'geo/v2', 'entity/patient', 'core/sound'],
+	function(Entity, V2, Patient, s) {
+		s.add('snd/patient_death1.mp3');
+		s.add('snd/patient_death2.mp3');
+		s.add('snd/patient_death3.mp3');
+		s.add('snd/patient_death4.mp3');
+
 		function PatientController(pos) {
 			Entity.call(this, pos);
 			this.toSpawn = 3;
@@ -21,10 +26,18 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 			{
 				this.current_patient.reduceHealth();
 
+
 				if (this.current_patient.isDefeated()) {
 					this.patients_index--;
+					if (this.patients_index >= 0) {
+						var rnd = Math.floor(Math.random() * 4) + 1;
+						s.play('snd/patient_death' + rnd + '.mp3');
+					}
 					this.current_patient = this.getCurrentPatient();
 					return true;
+				} else {
+					var rnd = Math.floor(Math.random() * 4) + 1;
+					s.play('snd/patient_death' + rnd + '.mp3');
 				}
 			return false;
 		}

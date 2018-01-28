@@ -1,5 +1,5 @@
-define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'basic/text', 'basic/image', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbarcontroller', 'entity/arrowhelper', 'entity/quiteHandler', 'entity/back'],
-		function(Scene, V2, g, Game, fonts, text, Image, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, HealthbarController, ArrowHelper, QuiteHandler, BackButton) {
+define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'config/fonts', 'basic/text', 'basic/image', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbarcontroller', 'entity/arrowhelper', 'entity/quiteHandler', 'entity/back'],
+		function(Scene, V2, g, s, Game, fonts, text, Image, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, HealthbarController, ArrowHelper, QuiteHandler, BackButton) {
 			var imageUrl = 'img/Background.jpg';
 			var gameStartUrl = 'img/game_start.png';
 			var gameStart1Url = 'img/game_start_countdown1.png';
@@ -17,6 +17,9 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 			g.add(darker);
 			g.add('img/button_back_normal.png');
 			g.add('img/button_back_hover.png');
+
+			s.add('snd/start.mp3');
+			s.add('snd/game_over.mp3');
 
 			function PlayScene() {
 				Scene.call(this);
@@ -102,6 +105,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 						}
 					}
 
+					s.play('snd/start.mp3');
+
 					document.getElementById("game_music").play();
 					document.getElementById("game_music").currentTime = 10;
 					document.getElementById("game_music").playbackRate = this.playSpeed;
@@ -140,6 +145,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 					this.add(this.button);
 					document.getElementById("game_music").pause();
 					document.getElementById("game_music").currentTime = 0;
+
+					s.play('snd/game_over.mp3');
 					return;
 				}
 
