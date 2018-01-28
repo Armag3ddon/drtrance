@@ -3,7 +3,7 @@ define(['lib/scene', 'entity/back'],
 
 			function HelpScene() {
 				Scene.call(this);
-				this.center(BackButton('menu'));
+				this.add(BackButton('menu'));
 			}
 
 			HelpScene.prototype = new Scene();

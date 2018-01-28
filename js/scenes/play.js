@@ -1,16 +1,22 @@
-define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbarcontroller', 'entity/arrowhelper'],
-		function(Scene, V2, g, Game, Image, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, HealthbarController, ArrowHelper) {
+define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'basic/text', 'basic/image', 'entity/player', 'entity/enemycontroller', 'entity/patientcontroller', 'entity/gamecontroller', 'entity/killZone', 'entity/heartcontroller', 'entity/healthbarcontroller', 'entity/arrowhelper', 'entity/quiteHandler', 'entity/back'],
+		function(Scene, V2, g, Game, fonts, text, Image, Player, EnemyController, Patientcontroller, Gamecontroller, KillZone, Heartcontroller, HealthbarController, ArrowHelper, QuiteHandler, BackButton) {
 			var imageUrl = 'img/Background.jpg';
 			var gameStartUrl = 'img/game_start.png';
 			var gameStart1Url = 'img/game_start_countdown1.png';
 			var gameStart2Url = 'img/game_start_countdown2.png';
 			var gameStart3Url = 'img/game_start_countdown3.png';
+			var gameOver = 'img/game_over.png';
+			var darker = 'img/darker.png';
 
 			g.add(imageUrl);
 			g.add(gameStartUrl);
 			g.add(gameStart1Url);
 			g.add(gameStart2Url);
 			g.add(gameStart3Url);
+			g.add(gameOver);
+			g.add(darker);
+			g.add('img/button_back_normal.png');
+			g.add('img/button_back_hover.png');
 
 			function PlayScene() {
 				Scene.call(this);
@@ -31,6 +37,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 					new Image(Zero(), gameStart2Url),
 					new Image(Zero(), gameStart1Url),
 				]
+				this.gameEnded = false;
 				// Enemies move 1000 pixels in 10 seconds (100 pixels per second, 0,1pixels per ms)
 				// We estimate one beat every ??? ms
 				// Initial spot of the killzone should be somewhere where an enemy flies by in a beat
@@ -75,7 +82,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 						if (game.scene.musicStopped)
 							game.scene.musicStopped();
 					};
-					
+
 					this.delay += delay;
 
 					if (this.delay <= 1000) {
@@ -94,10 +101,31 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 					this.started = true;
 				}
 
-				if (this.patientcontroller.entities.length <= 0) { // GAME OVER!!!
+				if (this.patientcontroller.entities.length <= 0 && this.gameEnded == false) { // GAME OVER!!!
+					Scene.call(this);
 					var scenes = require('config/scenes');
-					Game.scene = scenes.menu;
+					//Game.scene = scenes.menu;
+					//var center = new V2(640, 384);
+					var center = new V2(200, 200);
+					this.gameEnded = true;
+					this.image = new Image(new V2(0, 0), darker);
+					this.add(this.image);
+
+					this.image2 = new Image(new V2(495.5, 305.5), gameOver);
+					this.add(this.image2);
+
+					this.quiteHandler = new QuiteHandler(center, 'test');
+					this.add(this.quiteHandler);
+
+					this.quiteHandler.text.text = this.gamecontroller.clock.time;
+					this.quiteHandler.text2.text = this.gamecontroller.currentScore;
+					this.quiteHandler.text3.text = this.gamecontroller.highestMultiplierer;
+					this.gamecontroller.remove(this.gamecontroller.clock);
+
 					scenes.play = new PlayScene();
+
+					this.button = BackButton('menu');
+					this.add(this.button);
 					document.getElementById("game_music").pause();
 					document.getElementById("game_music").currentTime = 0;
 					return;

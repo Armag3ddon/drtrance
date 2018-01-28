@@ -1,5 +1,5 @@
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'],
-	function(Entity, V2, g, Animation, ImageEntity) {
+function(Entity, V2, g, Animation, ImageEntity) {
 		g.add('img/patient1_animation.png');
 		g.add('img/patient2_animation.png');
 		g.add('img/patient3_animation.png');

@@ -29,7 +29,8 @@ define(['basic/entity','geo/v2', 'entity/clock'],
       }
       else
       {
-        this.clock.text3.text = this.multiplierer;
+        this.highestMultiplierer = this.multiplierer;
+        this.clock.text3.text = this.highestMultiplierer;
       }
     };
     return GameController;

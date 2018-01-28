@@ -16,14 +16,16 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 		}
 
 		PatientController.prototype.reduceHealthAndGetDefeated = function() {
-			this.current_patient.reduceHealth();
+			if (this.parent.gameEnded == false)
+			{
+				this.current_patient.reduceHealth();
 
-			if (this.current_patient.isDefeated()) {
-				this.remove(this.current_patient);
-				this.current_patient = this.getCurrentPatient();
-				return true;
+				if (this.current_patient.isDefeated()) {
+					this.remove(this.current_patient);
+					this.current_patient = this.getCurrentPatient();
+					return true;
+				}
 			}
-
 			return false;
 		};
 
