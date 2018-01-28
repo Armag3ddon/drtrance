@@ -1,5 +1,5 @@
 define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'],
-	function(Entity, V2, g, Animation, ImageEntity) {
+function(Entity, V2, g, Animation, ImageEntity) {
 		g.add('img/patient1_animation.png');
 		g.add('img/patient2_animation.png');
 		g.add('img/patient3_animation.png');
@@ -8,11 +8,10 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 			Entity.call(this);
 			this.position = pos;
 
-			this.image = new Animation('img/patient' + type + '_animation.png', Zero(), new V2(4,4), 150, true);
+			this.image = new Animation('img/patient' + type + '_animation.png', Zero(), new V2(4,5), 150, true);
 			this.add(this.image);
 			this.animation = 0;
 			this.animationTime = 0;
-
 
 			this.beatTime = 0;
 			this.beatTimer = 0;
@@ -74,8 +73,11 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animation', 'basic/image'
 
 		Patient.prototype.reduceHealth = function() {
 			this.health -= 1;
-			if (this.health < 3) {
+			if (this.health < 3 && this.health > 0) {
 				this.image.state = 3;
+			}
+			else if (this.health <= 0) {
+				this.image.state = 4;
 			}
 		}
 

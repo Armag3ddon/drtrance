@@ -7,6 +7,7 @@ function(Entity, V2, g, fonts, TextEntity, ImageEntity) {
     function Clock(pos, text) {
       Entity.call(this);
       this.position = pos;
+      this.time = 0;
 
       this.image = new ImageEntity(pos, 'img/highscore_time.png');
       this.add(this.image);
@@ -30,7 +31,8 @@ function(Entity, V2, g, fonts, TextEntity, ImageEntity) {
       else str_seconds = seconds;
       if (minutes <= 9) str_minutes = '0' + minutes;
       else str_minutes = minutes;
-      return str_minutes + ':' + str_seconds;
+      this.time = str_minutes + ':' + str_seconds;
+      return this.time;
     };
 
     return Clock;
