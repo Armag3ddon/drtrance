@@ -72,15 +72,6 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 
 			PlayScene.prototype.onUpdate = function(delay) {
 				if (!this.started) {
-					document.getElementById("game_music").play();
-					document.getElementById("game_music").currentTime = 0;
-					document.getElementById("game_music").playbackRate = this.playSpeed;
-					document.getElementById("game_music").onended = function() {
-						var game = require('core/game');
-						if (game.scene.musicStopped)
-							game.scene.musicStopped();
-					};
-
 					this.delay += delay;
 
 					if (this.delay <= 1000) {
@@ -95,6 +86,15 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 							return;
 						}
 					}
+
+					document.getElementById("game_music").play();
+					document.getElementById("game_music").currentTime = 10;
+					document.getElementById("game_music").playbackRate = this.playSpeed;
+					document.getElementById("game_music").onended = function() {
+						var game = require('core/game');
+						if (game.scene.musicStopped)
+							game.scene.musicStopped();
+					};
 
 					this.started = true;
 				}
@@ -120,13 +120,15 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 					}
 				}
 
-				this.musicTimer += delay;
-				if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 1)
-					this.escalate(30000*this.playSpeed);
-				if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 2)
-					this.escalate(59126*this.playSpeed);
-				if (this.musicTimer >= 90000*this.playSpeed && this.musicStage < 3)
-					this.escalate(90000*this.playSpeed);
+				if (this.musicStage < 3) {
+					this.musicTimer += delay;
+					if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 1)
+						this.escalate(30000*this.playSpeed);
+					if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 2)
+						this.escalate(59126*this.playSpeed);
+					if (this.musicTimer >= 90000*this.playSpeed && this.musicStage < 3)
+						this.escalate(90000*this.playSpeed);
+				}
 
 				this.beatTimer += delay;
 				if (this.beatTimer >= this.beatTime) {
@@ -142,7 +144,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 			};
 
 			PlayScene.prototype.beat = function(difference) {
-				if (!this.flashing)
+				//if (!this.flashing)
 					this.enemycontroller.beat(difference);
 			};
 
