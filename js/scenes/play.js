@@ -78,6 +78,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 				this.add(this.gameStart[0]);
 				this.center(this.gameStart[1]);
 				this.bg = imageUrl;
+				this.gamepadbuttons = [false, false, false, false];
 
 				//this.musicTimer = 89000;
 				//this.musicStage = 3;
@@ -88,6 +89,67 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 			PlayScene.prototype = new Scene();
 
 			PlayScene.prototype.onUpdate = function(delay) {
+				var gamepad = window.controllers[0];
+
+				if (gamepad) { 
+					var buttonPressed = this.gamepadbuttons.findIndex(function (gamepadbutton) {
+						return gamepadbutton === true;
+					});
+
+					if (buttonPressed >= 0 && !gamepad.buttons[buttonPressed].pressed) {
+						if (buttonPressed === 2) {
+							console.log(button);
+							this.up('up');
+							this.gamepadbuttons[buttonPressed] = false
+						}
+						
+						if (buttonPressed === 0) {
+							console.log(button);
+							this.up('left');
+							this.gamepadbuttons[buttonPressed] = false
+						}
+						
+						if (buttonPressed === 1) {
+							console.log(button);
+							this.up('down');
+							this.gamepadbuttons[buttonPressed] = false
+						}
+						
+						if (buttonPressed === 3) {
+							console.log(button);
+							this.up('right');
+							this.gamepadbuttons[buttonPressed] = false
+						}
+						buttonPressed = -1;
+					}
+					
+					if (buttonPressed < 0) {
+						for (var button in gamepad.buttons) {
+							var btn = gamepad.buttons[button]
+							if (button === '2' && btn.pressed) {
+								console.log(button);
+								this.down('up');
+								this.gamepadbuttons[button] = true
+							}
+							else if (button === '0' && btn.pressed) {
+								console.log(button);
+								this.down('left');
+								this.gamepadbuttons[button] = true
+							}
+							else if (button === '1' && btn.pressed) {
+								console.log(button);
+								this.down('down');
+								this.gamepadbuttons[button] = true
+							}
+							else if (button === '3' && btn.pressed) {
+								console.log(button);
+								this.down('right');
+								this.gamepadbuttons[button] = true
+							}
+						}
+					}
+				}
+
 				if (!this.started) {
 
 					this.delay += delay;
@@ -270,6 +332,18 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 					}
 				}
 			};
+
+			PlayScene.prototype.down = function(key) {
+				for (var entity in this.keyAware) {
+					this.keyAware[entity].down(key);
+				}
+			}
+
+			PlayScene.prototype.up = function(key) {
+				for (var entity in this.keyAware) {
+					this.keyAware[entity].up(key);
+				}
+			}
 
 			return PlayScene;
 		}
