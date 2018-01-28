@@ -6,6 +6,7 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 			this.add(new Patient(new V2(40, 270), 3));
 			this.add(new Patient(new V2(-50, 350), 1));
 			this.add(new Patient(new V2(140, 390), 2));
+			this.patients_index = 2;
 
 			this.current_patient = this.getCurrentPatient();
 		}
@@ -16,21 +17,18 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 		}
 
 		PatientController.prototype.reduceHealthAndGetDefeated = function() {
-			if (this.parent.gameEnded == false)
-			{
-				this.current_patient.reduceHealth();
+			this.current_patient.reduceHealth();
 
-				if (this.current_patient.isDefeated()) {
-					this.remove(this.current_patient);
-					this.current_patient = this.getCurrentPatient();
-					return true;
-				}
+			if (this.current_patient.isDefeated()) {
+				this.patients_index--;
+				this.current_patient = this.getCurrentPatient();
+				return true;
 			}
 			return false;
 		};
 
 		PatientController.prototype.getCurrentPatient = function() {
-			return this.entities[this.entities.length - 1];
+			return this.entities[this.patients_index];
 		}
 
 		PatientController.prototype.beat = function(time) {
@@ -38,7 +36,7 @@ define(['basic/entity', 'geo/v2', 'entity/patient'],
 		};
 
 		PatientController.prototype.patientsLeft = function() {
-			return this.entities.length;
+			return this.patients_index + 1;
 		};
 
 		return PatientController;

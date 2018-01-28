@@ -120,8 +120,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 					this.started = true;
 				}
 
-				if (this.patientcontroller.entities.length <= 0 && this.gameEnded == false) { // GAME OVER!!!
-					Scene.call(this);
+				if (this.patientcontroller.patientsLeft() <= 0) { // GAME OVER!!!
 					var scenes = require('config/scenes');
 					//Game.scene = scenes.menu;
 					//var center = new V2(640, 384);

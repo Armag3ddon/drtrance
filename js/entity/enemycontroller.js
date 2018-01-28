@@ -55,16 +55,16 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			switch(rnd) {
 				case 0:
 					type = 'purple';
-				break;
+					break;
 				case 1:
 					type = 'red';
-				break;
+					break;
 				case 2:
 					type = 'green';
-				break;
+					break;
 				case 3:
 					type = 'blue';
-				break;
+					break;
 			}
 			var new_enemy = new Enemy(new V2(this.parent.enemySpawnPosition.x, this.parent.enemySpawnPosition.y), enemyData[type]);
 			new_enemy.lifetime = difference;
