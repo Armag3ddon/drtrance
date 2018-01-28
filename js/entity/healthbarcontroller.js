@@ -14,13 +14,13 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'basic/image'],
 		Graphic.add(imageHealthFullUrl);
 		Graphic.add(imageHealthMediumUrl);
 		Graphic.add(imageHealthLowUrl);
-		
+
 		function HealthbarController(pos) {
 			Entity.call(this);
 			this.position = pos;
 			this.initial_health = 5;
 			this.health = this.initial_health;
-			this.add(new Image(new V2(900, 500), imageHealthbarUrl));
+			this.add(new Image(new V2(960, 5), imageHealthbarUrl));
 			this.health_blobs = [];
 			this.imageLives = '';
 
@@ -72,16 +72,16 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'basic/image'],
 			}
 
 			this.removeHealthBlobs();
-			
+
 			for (var i = value - 1; i >= 0; --i) {
-				health_blob = new Image(new V2(883 + (i + offset) * 58, 606), image);
+				health_blob = new Image(new V2(960 + 50 + (i + offset) * 36, 5 + 29), image);
 				this.add(health_blob);
 				this.health_blobs.push(health_blob);
 			}
 
 			if (image_lives !== '') {
 				this.remove(this.imageLives);
-				this.imageLives = new Image(new V2(956, 518), image_lives);
+				this.imageLives = new Image(new V2(960 + 22, 5 + 14), image_lives);
 				this.add(this.imageLives);
 			}
 
