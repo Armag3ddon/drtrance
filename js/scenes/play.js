@@ -30,7 +30,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 					new Image(Zero(), gameStart3Url),
 					new Image(Zero(), gameStart2Url),
 					new Image(Zero(), gameStart1Url),
-				]
+				];
 				// Enemies move 1000 pixels in 10 seconds (100 pixels per second, 0,1pixels per ms)
 				// We estimate one beat every ??? ms
 				// Initial spot of the killzone should be somewhere where an enemy flies by in a beat
@@ -38,6 +38,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 				this.killzoneCenter = this.enemySpawnPosition.x - Math.floor(15 * this.oneBeat * 0.1);
 				this.killzoneWidth = 50; // left and right, so 80 in total!
 				this.killzoneTolerance = 10; // unseen extra tolerance for the killzone
+
+				this.flashing = false;
 
 				this.gamecontroller = new Gamecontroller(Zero());
 				this.killZone = new KillZone(new V2(this.killzoneCenter - this.killzoneWidth, 0), this.killzoneWidth*2);
@@ -61,6 +63,9 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 				this.add(this.healthbarcontroller);
 				this.center(this.gameStart[0]);
 				this.bg = imageUrl;
+
+				this.beatTimer = 80000;
+				this.musicStage = 2;
 			}
 
 			PlayScene.prototype = new Scene();
@@ -75,7 +80,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 						if (game.scene.musicStopped)
 							game.scene.musicStopped();
 					};
-					
+
 					this.delay += delay;
 
 					if (this.delay <= 1000) {
@@ -120,6 +125,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 					this.escalate(30000*this.playSpeed);
 				if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 2)
 					this.escalate(59126*this.playSpeed);
+				if (this.musicTimer >= 90000*this.playSpeed && this.musicStage < 3)
+					this.escalate(90000*this.playSpeed);
 
 				this.beatTimer += delay;
 				if (this.beatTimer >= this.beatTime) {
@@ -135,12 +142,21 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 			};
 
 			PlayScene.prototype.beat = function(difference) {
-				this.enemycontroller.beat(difference);
+				if (!this.flashing)
+					this.enemycontroller.beat(difference);
 			};
 
 			PlayScene.prototype.escalate = function(step) {
 				this.musicStage++;
-				this.beatTime -= this.oneBeat * this.playSpeed;
+				console.log(this.musicStage);
+				if (this.musicStage == 1)
+					this.beatTime -= this.oneBeat * this.playSpeed;
+				if (this.musicStage == 2)
+					this.beatTime -= this.oneBeat * this.playSpeed;
+				if (this.musicStage == 3) {
+					this.flashing = true;
+					this.killZone.startFlash();
+				}
 			};
 
 			PlayScene.prototype.center = function (obj) {
@@ -154,6 +170,9 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 			};
 
 			PlayScene.prototype.mouseup = function(mouse) {
+				if (!this.mouseStart)
+					return;
+
 				var mouseEnd = new V2(mouse.x, mouse.y);
 
 				var sum = mouseEnd.dif(this.mouseStart);
