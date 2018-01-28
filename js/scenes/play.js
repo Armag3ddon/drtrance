@@ -217,8 +217,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 					this.musicStage++;
 				}
 				if (this.increaseInterval) {
-					this.beatTime -= 50;
-					console.log("escalate");
+					this.beatTime -= 200;
 					if (this.beatTime < 0)
 						this.beatTime = 1;
 				}
