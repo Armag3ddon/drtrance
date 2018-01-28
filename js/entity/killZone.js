@@ -15,8 +15,9 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animationExt', 'basic/mor
 		killZone.prototype.onUpdate = function(delta) {
 			if (this.morphing) {
 				this.morphTimer += delta;
-				if (this.morphTimer >= 1500) {
-					this.morph = new Morph({ position { y: this.morphTo } }, 3000, Easing.INOUTQUAD, function(parent) { parent.stopFlash(); });
+				if (this.morphTimer >= 2500) {
+					var morph = new Morph({ position: { y: this.morphTo } }, 3000, Easing.INOUTQUAD, function(parent) { parent.stopFlash(); });
+					this.add(morph);
 					this.morphTimer = 0;
 					this.morphing = false;
 				}

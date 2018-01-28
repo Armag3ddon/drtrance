@@ -76,8 +76,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 				this.center(this.gameStart[1]);
 				this.bg = imageUrl;
 
-				//this.beatTimer = 80000;
-				//this.musicStage = 2;
+				this.musicTimer = 80000;
+				this.musicStage = 2;
 			}
 
 			PlayScene.prototype = new Scene();
@@ -85,14 +85,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 			PlayScene.prototype.onUpdate = function(delay) {
 				if (!this.started) {
 
-					document.getElementById("game_music").play();
-					document.getElementById("game_music").currentTime = 0;
-					document.getElementById("game_music").playbackRate = this.playSpeed;
-					document.getElementById("game_music").onended = function() {
-						var game = require('core/game');
-						if (game.scene.musicStopped)
-							game.scene.musicStopped();
-					};					this.delay += delay;
+					this.delay += delay;
 
 					if (this.delay <= 1000) {
 						return;
@@ -162,15 +155,13 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 					}
 				}
 
-				if (this.musicStage < 3) {
-					this.musicTimer += delay;
-					if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 1)
-						this.escalate(30000*this.playSpeed);
-					if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 2)
-						this.escalate(59126*this.playSpeed);
-					if (this.musicTimer >= 90000*this.playSpeed && this.musicStage < 3)
-						this.escalate(90000*this.playSpeed);
-				}
+				this.musicTimer += delay;
+				if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 1)
+					this.escalate(30000*this.playSpeed);
+				if (this.musicTimer >= 29590*this.playSpeed && this.musicStage < 2)
+					this.escalate(59126*this.playSpeed);
+				if (this.musicTimer >= 90000*this.playSpeed && this.musicStage < 3)
+					this.escalate(90000*this.playSpeed);
 
 				this.beatTimer += delay;
 				if (this.beatTimer >= this.beatTime) {
@@ -192,7 +183,6 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 
 			PlayScene.prototype.escalate = function(step) {
 				this.musicStage++;
-				console.log(this.musicStage);
 				if (this.musicStage == 1)
 					this.beatTime -= this.oneBeat * this.playSpeed;
 				if (this.musicStage == 2)
