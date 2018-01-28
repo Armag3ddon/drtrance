@@ -32,9 +32,13 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 				this.beatTime = this.oneBeat * 4 * this.playSpeed;
 				this.delay = 0;
 				this.gameStart = [
+						new Image(Zero(), darker),
 					new Image(Zero(), gameStartUrl),
+						new Image(Zero(), darker),
 					new Image(Zero(), gameStart3Url),
+						new Image(Zero(), darker),
 					new Image(Zero(), gameStart2Url),
+						new Image(Zero(), darker),
 					new Image(Zero(), gameStart1Url),
 				]
 				this.gameEnded = false;
@@ -94,9 +98,11 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 					}
 					else if (this.delay > 1000 && this.gameStart.length > 0) {
 						this.remove(this.gameStart.shift());
+						this.remove(this.gameStart.shift());
 
 						if (this.gameStart.length > 0) {
 							this.center(this.gameStart[0]);
+							this.add(this.gameStart[1]);
 							this.delay = 0;
 							return;
 						}
