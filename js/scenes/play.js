@@ -114,16 +114,16 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 					this.started = true;
 				}
 
-				if (this.patientcontroller.patientsLeft() <= 0) { // GAME OVER!!!
+				if (this.patientcontroller.patientsLeft() <= 0 && this.gameEnded == false) { // GAME OVER!!!
 					var scenes = require('config/scenes');
 					//Game.scene = scenes.menu;
 					//var center = new V2(640, 384);
-					var center = new V2(200, 200);
+					var center = new V2(255, 165);
 					this.gameEnded = true;
 					this.image = new Image(new V2(0, 0), darker);
 					this.add(this.image);
 
-					this.image2 = new Image(new V2(495.5, 305.5), gameOver);
+					this.image2 = new Image(new V2(495.5, 305.5-200), gameOver);
 					this.add(this.image2);
 
 					this.quiteHandler = new QuiteHandler(center, 'test');
