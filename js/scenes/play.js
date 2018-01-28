@@ -46,7 +46,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 				// We estimate one beat every ??? ms
 				// Initial spot of the killzone should be somewhere where an enemy flies by in a beat
 				this.enemySpawnPosition = new V2(1300, 310);
-				this.killzoneCenter = this.enemySpawnPosition.x - Math.floor(15 * this.oneBeat * 0.1);
+				this.killzoneCenter = this.getBeatX(15);
 				this.killzoneWidth = 50; // left and right, so 80 in total!
 				this.killzoneTolerance = 10; // unseen extra tolerance for the killzone
 
@@ -76,8 +76,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 				this.center(this.gameStart[1]);
 				this.bg = imageUrl;
 
-				this.musicTimer = 80000;
-				this.musicStage = 2;
+				//this.musicTimer = 89000;
+				//this.musicStage = 2;
 			}
 
 			PlayScene.prototype = new Scene();
@@ -181,6 +181,10 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 					this.enemycontroller.beat(difference);
 			};
 
+			PlayScene.prototype.getBeatX = function(beats) {
+				return this.enemySpawnPosition.x - Math.floor(beats * this.oneBeat * 0.1);;
+			};
+
 			PlayScene.prototype.escalate = function(step) {
 				this.musicStage++;
 				if (this.musicStage == 1)
@@ -189,8 +193,19 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 					this.beatTime -= this.oneBeat * this.playSpeed;
 				if (this.musicStage == 3) {
 					this.flashing = true;
-					this.killZone.startFlash();
+					this.killZone.startFlash(this.getBeatX(12));
 				}
+			};
+
+			PlayScene.prototype.killzoneFixed = function() {
+				this.flashing = false;
+			};
+
+			PlayScene.prototype.moveKillzone = function(toX) {
+				toX += this.killzoneWidth;
+				this.killzoneCenter = toX;
+				this.enemycontroller.moveKillzone(toX);
+				this.arrowhelper.moveHelper(toX);
 			};
 
 			PlayScene.prototype.center = function (obj) {

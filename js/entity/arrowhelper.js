@@ -6,27 +6,45 @@ define(['basic/entity', 'geo/v2', 'lib/animation', 'core/graphic'],
 			Entity.call(this);
 			this.position = pos;
 
-			var percentage = (1300 - pos.x) / 1000;
+			this.anim1 = new Animation('img/DanceDanceRevolution.png', new V2(-50, 0), 4, 0, false);
+			this.anim1.frame = 2;
+			this.anim2 = new Animation('img/DanceDanceRevolution.png', new V2(-50, 0), 4, 0, false);
+			this.anim2.frame = 0;
+			this.anim3 = new Animation('img/DanceDanceRevolution.png', new V2(-50, 0), 4, 0, false);
+			this.anim3.frame = 1;
+			this.anim4 = new Animation('img/DanceDanceRevolution.png', new V2(-50, 0), 4, 0, false);
+			this.anim4.frame = 3;
+			this.add(this.anim1);
+			this.add(this.anim2);
+			this.add(this.anim3);
+			this.add(this.anim4);
 
-			var y = Math.round(enemyData['green'].a * Math.pow((1 - percentage * 2), 2) * 100 - enemyData['green'].a * 100);
-			var anim1 = new Animation('img/DanceDanceRevolution.png', new V2(-50, y + playscene.enemySpawnPosition.y), 4, 0, false);
-			anim1.frame = 2;
-			y = Math.round(enemyData['purple'].a * Math.pow((1 - percentage * 2), 2) * 100 - enemyData['purple'].a * 100);
-			var anim2 = new Animation('img/DanceDanceRevolution.png', new V2(-50, y + playscene.enemySpawnPosition.y), 4, 0, false);
-			anim2.frame = 0;
-			var y = Math.round(enemyData['red'].a * Math.pow((1 - percentage * 2), 2) * 100 - enemyData['red'].a * 100);
-			var anim3 = new Animation('img/DanceDanceRevolution.png', new V2(-50, y + playscene.enemySpawnPosition.y), 4, 0, false);
-			anim3.frame = 1;
-			var y = Math.round(enemyData['blue'].a * Math.pow((1 - percentage * 2), 2) * 100 - enemyData['blue'].a * 100);
-			var anim4 = new Animation('img/DanceDanceRevolution.png', new V2(-50, y + playscene.enemySpawnPosition.y), 4, 0, false);
-			anim4.frame = 3;
-			this.add(anim1);
-			this.add(anim2);
-			this.add(anim3);
-			this.add(anim4);
+			this.setArrowPositions(playscene);
 		};
 
 		ArrowHelper.prototype = new Entity();
+
+		ArrowHelper.prototype.setArrowPositions = function(parent) {
+			var percentage = (1300 - this.position.x) / 1000;
+
+			var y = Math.round(enemyData['green'].a * Math.pow((1 - percentage * 2), 2) * 100 - enemyData['green'].a * 100);
+			this.anim1.position.x = -50;
+			this.anim1.position.y = y + parent.enemySpawnPosition.y;
+			y = Math.round(enemyData['purple'].a * Math.pow((1 - percentage * 2), 2) * 100 - enemyData['purple'].a * 100);
+			this.anim2.position.x = -50;
+			this.anim2.position.y = y + parent.enemySpawnPosition.y;
+			y = Math.round(enemyData['red'].a * Math.pow((1 - percentage * 2), 2) * 100 - enemyData['red'].a * 100);
+			this.anim3.position.x = -50;
+			this.anim3.position.y = y + parent.enemySpawnPosition.y;
+			y = Math.round(enemyData['blue'].a * Math.pow((1 - percentage * 2), 2) * 100 - enemyData['blue'].a * 100);
+			this.anim4.position.x = -50;
+			this.anim4.position.y = y + parent.enemySpawnPosition.y;
+		};
+
+		ArrowHelper.prototype.moveHelper = function(toX) {
+			this.position.x = toX;
+			this.setArrowPositions(this.parent);
+		};
 
 		return ArrowHelper;
 	}

@@ -40,28 +40,28 @@ define(['definition/easing'],
 					}
 				}
 			};
-			
+
 			Morph.prototype.getProgress = function(delta) {
 				var progress = this.animationTime / this.duration;
 				progress = Math.min(Math.max(progress, 0), 1);
 				return this.easingFunction(progress);
 			};
-			
+
 			Morph.prototype.setParent = function(parent){
 				this.parent = parent;
 				this.initMorphAttributes(this.attributes, this.parent);
 			};
-			
-			// Internal Helper			
+
+			// Internal Helper
 			function MorphData(from, to){
 				this.from = from;
 				this.to = to;
 			}
-			
+
 			MorphData.prototype.valueForProgress = function(progress) {
 				return this.from + (this.to - this.from) * progress;
 			};
-			
+
 			return Morph;
 		}
 );

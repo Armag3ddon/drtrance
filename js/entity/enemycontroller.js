@@ -49,6 +49,11 @@ define(['basic/entity', 'geo/v2', 'entity/enemy'],
 			}
 		};
 
+		EnemyController.prototype.moveKillzone = function(toX) {
+			this.killzone.x = this.parent.killzoneCenter - this.parent.killzoneWidth/2 - this.parent.killzoneTolerance;
+			this.killzone.y = this.parent.killzoneCenter + this.parent.killzoneWidth/2 + this.parent.killzoneTolerance;
+		};
+
 		EnemyController.prototype.beat = function(difference) {
 			var rnd = Math.floor(Math.random() * 4);
 			var type = '';

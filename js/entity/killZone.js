@@ -15,27 +15,43 @@ define(['basic/entity', 'geo/v2', 'core/graphic', 'lib/animationExt', 'basic/mor
 		killZone.prototype.onUpdate = function(delta) {
 			if (this.morphing) {
 				this.morphTimer += delta;
-				if (this.morphTimer >= 2500) {
-					var morph = new Morph({ position: { y: this.morphTo } }, 3000, Easing.INOUTQUAD, function(parent) { parent.stopFlash(); });
+				if (this.morphTimer >= 2500 && !this.trackX) {
+					var morph = new Morph({ position: { x: this.morphTo } }, 3000, Easing.INOUTCUBIC, function(parent) { parent.stopFlash(); });
 					this.add(morph);
 					this.morphTimer = 0;
-					this.morphing = false;
+					this.trackX = true;
+				}
+			}
+			if (this.trackX) {
+				this.parent.moveKillzone(this.position.x);
+				if (this.trackXTimer > 0) {
+					this.trackXTimer += delta;
+					if (this.trackXTimer >= 2000) {
+						this.trackX = false;
+						this.trackXTimer = 0;
+					}
 				}
 			}
 		};
 
 		killZone.prototype.startFlash = function(toX) {
+			if (this.flash)
+				return;
 			this.image.duration = 200;
 			this.flash = true;
 
 			this.morphTo = toX;
 			this.morphTimer = 0;
 			this.morphing = true;
+			this.trackX = false;
 		};
 
 		killZone.prototype.stopFlash = function() {
 			this.image.duration = 0;
 			this.flash = false;
+			this.morphing = false;
+			this.trackXTimer = 1;
+			this.parent.killzoneFixed();
 		};
 
 		return killZone;
