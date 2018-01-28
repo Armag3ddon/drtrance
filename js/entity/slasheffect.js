@@ -24,8 +24,8 @@ define(['basic/entity', 'geo/v2', 'core/graphic'],
 		};
 
 		SlashEffect.prototype.onDraw = function(ctx) {
-			var height = Math.round(Math.min(this.lifetime / this.maxStretch, 100) * this.size.y);
-			var width = Math.round(Math.min(this.lifetime / this.maxStretch, 100) * this.size.x);
+			var height = Math.min(Math.round(Math.min(this.lifetime / this.maxStretch, 100) * this.size.y), 1);
+			var width = Math.min(Math.round(Math.min(this.lifetime / this.maxStretch, 100) * this.size.x), 1);
 			ctx.drawImage(g['img/Slash.png'], 0, 0, width, height, 0, 0, width, height);
 		};
 
