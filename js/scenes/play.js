@@ -72,7 +72,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 				this.add(this.heartcontroller);
 				this.add(this.drtrance);
 				this.add(this.healthbarcontroller);
-				this.center(this.gameStart[0]);
+				this.add(this.gameStart[0]);
+				this.center(this.gameStart[1]);
 				this.bg = imageUrl;
 
 				//this.beatTimer = 80000;
@@ -101,8 +102,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'config/fonts', 'bas
 						this.remove(this.gameStart.shift());
 
 						if (this.gameStart.length > 0) {
-							this.center(this.gameStart[0]);
-							this.add(this.gameStart[1]);
+							this.add(this.gameStart[0]);
+							this.center(this.gameStart[1]);
 							this.delay = 0;
 							return;
 						}
