@@ -64,8 +64,8 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/game', 'basic/image', 'enti
 				this.center(this.gameStart[0]);
 				this.bg = imageUrl;
 
-				this.beatTimer = 80000;
-				this.musicStage = 2;
+				//this.beatTimer = 80000;
+				//this.musicStage = 2;
 			}
 
 			PlayScene.prototype = new Scene();
