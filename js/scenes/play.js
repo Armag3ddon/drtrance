@@ -28,7 +28,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 				this.beatTimer = 0;
 
 				this.started = false;
-				this.playSpeed = 2.0;
+				this.playSpeed = 1.0;
 				this.musicStage = 0;
 				this.musicTimer = 0;
 				this.oneBeat = 464;
@@ -91,7 +91,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 			PlayScene.prototype.onUpdate = function(delay) {
 				var gamepad = window.controllers[0];
 
-				if (gamepad) { 
+				if (gamepad) {
 					var buttonPressed = this.gamepadbuttons.findIndex(function (gamepadbutton) {
 						return gamepadbutton === true;
 					});
@@ -102,19 +102,19 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 							this.up('up');
 							this.gamepadbuttons[buttonPressed] = false
 						}
-						
+
 						if (buttonPressed === 0) {
 							console.log(button);
 							this.up('left');
 							this.gamepadbuttons[buttonPressed] = false
 						}
-						
+
 						if (buttonPressed === 1) {
 							console.log(button);
 							this.up('down');
 							this.gamepadbuttons[buttonPressed] = false
 						}
-						
+
 						if (buttonPressed === 3) {
 							console.log(button);
 							this.up('right');
@@ -122,7 +122,7 @@ define(['lib/scene', 'geo/v2', 'core/graphic', 'core/sound', 'core/game', 'confi
 						}
 						buttonPressed = -1;
 					}
-					
+
 					if (buttonPressed < 0) {
 						for (var button in gamepad.buttons) {
 							var btn = gamepad.buttons[button]

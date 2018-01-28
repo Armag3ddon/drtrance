@@ -3,6 +3,8 @@ define(['lib/scene', 'basic/button', 'core/graphic', 'core/game', 'geo/v2', 'tra
 		g.add('img/main_menu_bg.jpg');
 		g.add('img/button_start_normal.png');
 		g.add('img/button_start_hover.png');
+		g.add('img/button_diff_normal.png');
+		g.add('img/button_diff_hover.png');
 		g.add('img/button_help_normal.png');
 		g.add('img/button_help_hover.png');
 		g.add('img/button_credits_normal.png');
@@ -11,17 +13,17 @@ define(['lib/scene', 'basic/button', 'core/graphic', 'core/game', 'geo/v2', 'tra
 			Scene.call(this);
 
 			var playButton = Button.create(new V2(330, 350), function() { game.scene = require('config/scenes').play; }).img('img/button_start_normal.png').imgHover('img/button_start_hover.png');
-			var difficultyButton = Button.create(new V2(670, 350), function() {
+			this.difficultyButton = Button.create(new V2(670, 350), function() {
 				require('config/scenes').play.playSpeed += 0.5;
 				if (require('config/scenes').play.playSpeed > 2.0)
 					require('config/scenes').play.playSpeed = 0.5;
-
-			}).img('img/button_start_normal.png').imgHover('img/button_start_hover.png');
+				require('core/game').scene.difficultyButton.changePicture(require('config/scenes').play.playSpeed);
+			}).imgAnim('img/button_diff_normal.png', new V2(1, 4)).imgAnimHover('img/button_diff_hover.png', new V2(1, 4));
 			var creditsButton = Button.create(new V2(330, 500), function() { game.scene = new SlideInRightTransition(require('config/scenes').credits, 1000, Easing.OUTQUAD); }).img('img/button_credits_normal.png').imgHover('img/button_credits_hover.png');
 			var helpButton = Button.create(new V2(670, 500), function() { game.scene = require('config/scenes').help; }).img('img/button_help_normal.png').imgHover('img/button_help_hover.png');
 
 			this.add(playButton);
-			this.add(difficultyButton);
+			this.add(this.difficultyButton);
 			this.add(creditsButton);
 			this.add(helpButton);
 

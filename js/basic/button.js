@@ -1,5 +1,5 @@
-define(['basic/entity', 'geo/v2', 'basic/text', 'basic/rect', 'basic/image'],
-		function(Entity, V2, TextEntity, RectEntity, ImageEntity) {
+define(['basic/entity', 'geo/v2', 'basic/text', 'basic/rect', 'basic/image', 'lib/animation'],
+		function(Entity, V2, TextEntity, RectEntity, ImageEntity, Animation) {
 			function Button(pos, callback) {
 				Entity.call(this, pos);
 				this.onClick = function(p) {
@@ -46,6 +46,7 @@ define(['basic/entity', 'geo/v2', 'basic/text', 'basic/rect', 'basic/image'],
 				this.size.x = Math.max(img.size.x, this.size.x);
 				this.size.y = Math.max(img.size.y, this.size.y);
 				this.add(img);
+				this.image = img;
 				return this;
 			};
 			Button.prototype.imgHover = function(src, scale) {
@@ -56,6 +57,46 @@ define(['basic/entity', 'geo/v2', 'basic/text', 'basic/rect', 'basic/image'],
 				this.add(img);
 				this.hoverImg.visible = false;
 				return this;
+			};
+
+			Button.prototype.imgAnim = function(src, frames) {
+				var img = new Animation(src, Zero(), frames, 0, false);
+				this.size.x = Math.max(img.size.x, this.size.x);
+				this.size.y = Math.max(img.size.y, this.size.y);
+				this.add(img);
+				this.animation = img;
+				return this;
+			};
+
+			Button.prototype.imgAnimHover = function(src, frames) {
+				var img = new Animation(src, Zero(), frames, 0, false);
+				this.size.x = Math.max(img.size.x, this.size.x);
+				this.size.y = Math.max(img.size.y, this.size.y);
+				this.hoverImg = img;
+				this.add(img);
+				this.hoverImg.visible = false;
+				return this;
+			};
+
+			Button.prototype.changePicture = function(value) {
+				switch(value) {
+					case 0.5:
+						this.animation.state = 3;
+						this.hoverImg.state = 3;
+					break;
+					case 1.0:
+						this.animation.state = 0;
+						this.hoverImg.state = 0;
+					break;
+					case 1.5:
+						this.animation.state = 1;
+						this.hoverImg.state = 1;
+					break;
+					case 2.0:
+						this.animation.state = 2;
+						this.hoverImg.state = 2;
+					break;
+				}
 			};
 
 			Button.prototype.rect = function(w, h, color) {
